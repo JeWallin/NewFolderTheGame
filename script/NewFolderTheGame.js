@@ -4,6 +4,7 @@ class NewFolderTheGame
     constructor()
     {
         console.log("NewFolderTheGame Constructed");
+        
         this.GameObjects = [];
     }
 
@@ -16,6 +17,7 @@ class NewFolderTheGame
         2) CREATE WALLS ETC.
         3) CREATE HERO SWAPN.
         4) CREATE ZOMBIE SPAWN.
+        5) ja det andra också
          */
     }
 
