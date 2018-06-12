@@ -9,6 +9,18 @@ class GameObject
         this.size       = new vector2d(10, 10);
     }
 
+    SetPosition(x, y)
+    {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
+    SetSize(x, y)
+    {
+        this.size.x = x;
+        this.size.y = y;
+    }
+
     Init()
     {
 

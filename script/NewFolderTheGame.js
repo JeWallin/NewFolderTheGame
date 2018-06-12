@@ -11,7 +11,9 @@ class NewFolderTheGame
         
 
 
-        this.object = new GameObject();
+        this.object = new WorldObject();
+        this.object.SetPosition(560, 820);
+        this.object.SetSize(30, 12);
     }
 
     Init()
