@@ -1,11 +1,17 @@
 
 class NewFolderTheGame
 {
-    constructor()
+    constructor(canvasId)
     {
         console.log("NewFolderTheGame Constructed");
+
+        this.canvas         = document.getElementById(canvasId);
+		this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
+        this.renderContext  = this.canvas.getContext('2d');
         
-        this.GameObjects = [];
+
+
+        this.object = new GameObject();
     }
 
     Init()
@@ -23,11 +29,12 @@ class NewFolderTheGame
 
     Update(deltaTime)
     {
-        console.log("NewFolderTheGame Update");
+
     }
 
-    Render(renderContext)
+    Render()
     {
-        console.log("NewFolderTheGame Render");
+
+        this.object.Render(this.renderContext);
     }
 }
