@@ -9,6 +9,7 @@ class GameObject
         this.size       = new vector2d(10, 10);
         this.image      = undefined;
         this.rotation   = 0;
+        this.colidable  = false;
     }
 
     Init()
@@ -46,6 +47,11 @@ class GameObject
     SetRotation(rotation)
     {
         this.rotation = rotation;
+    }
+
+    SetColidable(colidable)
+    {
+        this.colidable = colidable;
     }
 
     RenderObject()

@@ -15,9 +15,7 @@ class NewFolderTheGame
 
         
         this.obj = new Rock();
-        this.obj.SetPosition(200, 300);
-        this.obj.SetSize( 50, 50);
-        this.obj.SetRotation( 3.14*1.2 );
+        this.obj.Init(new vector2d(100, 100), new vector2d(60, 60), 3.14/2);
     }
 
     Init()
