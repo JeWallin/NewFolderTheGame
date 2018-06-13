@@ -5,6 +5,7 @@ var lastUpdate;
 
 function main ()
 {
+
     game = new NewFolderTheGame("screen");
 
     game.Init();
@@ -14,10 +15,20 @@ function main ()
     tick();
 }
 
+function KeyDown(event)
+{
+    game.Input(event.keyCode, true);
+}
+
+function KeyUp(event)
+{
+    game.Input(event.keyCode, false);
+}
+
 function tick()
 {
     var updated = Date.now();
-    var deltaTime =  updated - lastUpdate;
+    var deltaTime =  (updated - lastUpdate)*0.001;
 
     lastUpdate = updated;
 

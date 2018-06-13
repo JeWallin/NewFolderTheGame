@@ -6,8 +6,7 @@ class Rock extends GameObject
         super();
         console.log("Rock Constructed");
 
-        var rock = document.getElementById("rockImage");
-        super.SetImage(rock);
+        super.SetImage(imageList.ROCK);
         
     }
 
