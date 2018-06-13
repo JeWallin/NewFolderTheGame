@@ -6,14 +6,13 @@ class NewFolderTheGame
         console.log("NewFolderTheGame Constructed");
 
         this.canvas         = document.getElementById(canvasId);
-		this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
+		    this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
-
         this.gameRenderer   = new Renderer2d();
+      
         this.gameRenderer.ConnectContext(this.renderContext);
         this.gameRenderer.ConnectCanvas(this.canvas);
-
-        
+      
         this.obj = new Rock();
         this.obj.Init(new vector2d(100, 100), new vector2d(60, 60), 3.14/2);
     }

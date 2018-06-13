@@ -15,6 +15,12 @@ class vector2d
     {
 
     }
+}
 
-    
+class Box
+{
+    constructor()
+    {
+        
+    }
 }

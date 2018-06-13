@@ -12,6 +12,18 @@ class GameObject
         this.colidable  = false;
     }
 
+    SetPosition(x, y)
+    {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
+    SetSize(x, y)
+    {
+        this.size.x = x;
+        this.size.y = y;
+    }
+
     Init()
     {
 
