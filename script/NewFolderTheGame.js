@@ -8,10 +8,16 @@ class NewFolderTheGame
         this.canvas         = document.getElementById(canvasId);
 		this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
+
+        this.gameRenderer   = new Renderer2d();
+        this.gameRenderer.ConnectContext(this.renderContext);
+        this.gameRenderer.ConnectCanvas(this.canvas);
+
         
-
-
-        this.object = new GameObject();
+        this.obj = new Rock();
+        this.obj.SetPosition(200, 300);
+        this.obj.SetSize( 50, 50);
+        this.obj.SetRotation( 3.14*1.2 );
     }
 
     Init()
@@ -34,7 +40,8 @@ class NewFolderTheGame
 
     Render()
     {
-
-        this.object.Render(this.renderContext);
+        this.gameRenderer.ClearScreen();
+        var renderobj = this.obj.RenderObject();
+        this.gameRenderer.Render(renderobj);
     }
 }
