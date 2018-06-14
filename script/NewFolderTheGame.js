@@ -32,7 +32,8 @@ class NewFolderTheGame
         stone4.Init( new vector2d(390, 300), new vector2d(50, 50), 0);
 
         this.player = new BasePlayer();
-        this.player.Init(this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
+        var playerController = new PlayerController(this.coliderManager, this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
+        this.player.Init(playerController);
         
         var sizeEffect = new SizeEffect(25);
         var sizeEffect1 = new SizeEffect(50);
@@ -67,7 +68,7 @@ class NewFolderTheGame
         this.Objects.push(bullet);
         this.Objects.push(bullet2);
         this.Objects.push(bullet3);
-        //this.Objects.push(player);
+        this.Objects.push(this.player);
 
         this.coliderManager.RegisterColidableObject(stone);
         this.coliderManager.RegisterColidableObject(stone2);
@@ -104,7 +105,6 @@ class NewFolderTheGame
             this.Objects[i].Update(deltaTime);
         }
 
-        this.player.Update(deltaTime, this.coliderManager);
 
         for ( var i = 0; i < this.Objects.length; i++)
         {
@@ -115,17 +115,11 @@ class NewFolderTheGame
                 i--;
             }
         }
-
     }
 
     Render()
     {
         this.gameRenderer.ClearScreen();
-
-        var renderPlayer = this.player.RenderObject();
-        this.gameRenderer.Render(renderPlayer);
-
-        this.gameRenderer.RenderDebugCircle(renderPlayer);
 
         for ( var i = 0; i < this.Objects.length; i++)
         {
