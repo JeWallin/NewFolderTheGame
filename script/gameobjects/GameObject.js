@@ -32,8 +32,10 @@ class GameObject
 
     Update(deltaTime)
     {
+        
         for( var i = 0; i < this.Effects.length; i++)
         {
+           
             if ( this.Effects[i].Update(deltaTime, this) )
             {
                 this.Effects.splice(i, 1);
@@ -57,7 +59,6 @@ class GameObject
 
     Render(renderContext)
     {
-        console.log("Render");
 
         renderContext.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
     }

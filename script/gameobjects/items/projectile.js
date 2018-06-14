@@ -31,6 +31,7 @@ class ProjectileStraight extends GameObject
 
     Update(deltaTime)
     {
+        super.Update(deltaTime);
         if ( this.projectorBehavior != undefined )
         {
             this.projectorBehavior.Update(deltaTime, this);

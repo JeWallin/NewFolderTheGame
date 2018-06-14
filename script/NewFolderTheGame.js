@@ -31,53 +31,23 @@ class NewFolderTheGame
         var stone4 = new Rock();
         stone4.Init( new vector2d(390, 300), new vector2d(50, 50), 0);
 
-        this.player = new BasePlayer();
+        var player = new BasePlayer();
         var playerController = new PlayerController(this.coliderManager, this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
-        this.player.Init(playerController);
+        player.Init(playerController);
         
-        var sizeEffect = new SizeEffect(25);
-        var sizeEffect1 = new SizeEffect(50);
-        var sizeEffect2 = new SizeEffect(-100);
-
-        var bullet = new ProjectileStraight(DIRECTIONS.SOUTH);
-        bullet.position.x = 500;
-
-        var bullet2 = new ProjectileStraight(DIRECTIONS.NORTH);
-        bullet2.position.x = 500;
-        bullet2.position.y = 1000;
-
-        var bullet3 = new ProjectileStraight(DIRECTIONS.WEST);
-        bullet3.position.x = 1000;
-        bullet3.position.y = 500;
-        bullet3.speed = 100;
-
-        var bulletBehavior = new BulletBehavior(this.coliderManager);
-
-        bullet.SetBehaviour(bulletBehavior);
-        bullet2.SetBehaviour(bulletBehavior);
-        bullet3.SetBehaviour(bulletBehavior);
-
-        bullet.SetEffect(sizeEffect);
-        bullet2.SetEffect(sizeEffect1);
-        bullet3.SetEffect(sizeEffect2);
+        
         
         this.Objects.push(stone);
         this.Objects.push(stone2);
         this.Objects.push(stone3);
         this.Objects.push(stone4);
-        this.Objects.push(bullet);
-        this.Objects.push(bullet2);
-        this.Objects.push(bullet3);
-        this.Objects.push(this.player);
+        this.Objects.push(player);
 
         this.coliderManager.RegisterColidableObject(stone);
         this.coliderManager.RegisterColidableObject(stone2);
         this.coliderManager.RegisterColidableObject(stone3);
         this.coliderManager.RegisterColidableObject(stone4);
-        this.coliderManager.RegisterColidableObject(bullet);
-        this.coliderManager.RegisterColidableObject(bullet2);
-        this.coliderManager.RegisterColidableObject(bullet3);
-        this.coliderManager.RegisterColidableObject(this.player);
+        this.coliderManager.RegisterColidableObject(player);
     }
 
     Init()

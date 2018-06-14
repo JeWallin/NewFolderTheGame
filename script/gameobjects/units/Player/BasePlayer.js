@@ -19,6 +19,7 @@ class BasePlayer extends BaseUnit
 
     Update(deltaTime)
     {
+        super.Update(deltaTime);
         this.controller.Update(deltaTime, this);
     }
 
