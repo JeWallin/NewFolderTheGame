@@ -9,6 +9,8 @@ class GameObject
         this.image      = undefined;
         this.rotation   = 0;
         this.colidable  = false;
+        this.toDestroy  = false;
+        this.Effects    = [];
     }
 
     SetPosition(x, y)
@@ -30,7 +32,27 @@ class GameObject
 
     Update(deltaTime)
     {
+        for( var i = 0; i < this.Effects.length; i++)
+        {
+            if ( this.Effects[i].Update(deltaTime, this) )
+            {
+                this.Effects.splice(i, 1);
+                i--;
+            }
+        }
+    }
 
+    AffectedBy(effect)
+    {
+        if ( effect !== undefined)
+        {
+            this.Effects.push(effect);
+        }
+        else
+        {
+            console.log("SHoULDNASDKASD ASDA");
+        }
+        
     }
 
     Render(renderContext)
@@ -46,8 +68,8 @@ class GameObject
 
     SetSize( width, height )
     {
-        this.size.x = width;
-        this.size.y = height;
+        this.size.x = Math.max(width, 1);
+        this.size.y = Math.max(height,1);
     }
 
     SetImage(image)
@@ -78,6 +100,11 @@ class GameObject
         renderObj.SetImage( this.image );
         renderObj.SetRotation( this.rotation );
         return renderObj;
+    }
+
+    ToBeRemoved()
+    {
+        return this.toDestroy;
     }
 
     SphereColider()
