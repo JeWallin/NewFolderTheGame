@@ -11,7 +11,6 @@ class NewFolderTheGame
         this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
         this.gameRenderer   = new Renderer2d();
-        this.Objects        = [];
 
         this.gameRenderer.ConnectContext(this.renderContext);
         this.gameRenderer.ConnectCanvas(this.canvas);
@@ -22,32 +21,45 @@ class NewFolderTheGame
 
     CreateObjects()
     {
-        var stone = new Rock();
-        stone.Init( new vector2d(200, 200), new vector2d(50, 50), 0);
-        var stone2 = new Rock();
-        stone2.Init( new vector2d(200, 260), new vector2d(50, 50), 0);
-        var stone3 = new Rock();
-        stone3.Init( new vector2d(300, 300), new vector2d(50, 50), 0);
-        var stone4 = new Rock();
-        stone4.Init( new vector2d(390, 300), new vector2d(50, 50), 0);
-
         var player = new BasePlayer();
-        var playerController = new PlayerController(this.coliderManager, this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
-        player.Init(playerController);
         
+        var player2 = new BasePlayer();
+        var playerController = new PlayerController(this.coliderManager, this.keyManager, 
+            KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
+        var player2Controller = new PlayerController(this.coliderManager, this.keyManager, 
+            KEYS.I, KEYS.K, KEYS.J, KEYS.L, KEYS.RIGHT, KEYS.Q, KEYS.E);
         
-        
-        this.Objects.push(stone);
-        this.Objects.push(stone2);
-        this.Objects.push(stone3);
-        this.Objects.push(stone4);
-        this.Objects.push(player);
+        player.SetPosition(500, 500);
+        player.SetPosition(500, 600);
 
-        this.coliderManager.RegisterColidableObject(stone);
-        this.coliderManager.RegisterColidableObject(stone2);
-        this.coliderManager.RegisterColidableObject(stone3);
-        this.coliderManager.RegisterColidableObject(stone4);
+        player.Init(playerController);
+        player2.Init(player2Controller);
+        
         this.coliderManager.RegisterColidableObject(player);
+        this.coliderManager.RegisterColidableObject(player2);
+        
+        var lotsOfRocks = 40;
+        for( var i = 0; i < lotsOfRocks; i++ )
+        {
+            while(true)
+            {
+                var pos = new vector2d( Math.random()*this.gameSize.x, Math.random()*this.gameSize.y);
+                var sizeXY =   20 + Math.random()*100;
+                var size = new vector2d( sizeXY, sizeXY);
+                var toAdd = new Rock();
+                toAdd.Init(pos, size, 0);
+                console.log(pos);
+
+                var res = this.coliderManager.IsColiding(toAdd.SphereColider(), []);
+
+                if ( !res.colide )
+                {
+                    this.coliderManager.RegisterColidableObject(toAdd);
+                    
+                    break;
+                }
+            }
+        }
     }
 
     Init()
@@ -70,18 +82,19 @@ class NewFolderTheGame
 
     Update(deltaTime)
     {
-        for ( var i = 0; i < this.Objects.length; i++)
+        var objects = this.coliderManager.GetObjects();
+
+        for ( var i = 0; i < objects.length; i++)
         {
-            this.Objects[i].Update(deltaTime);
+            objects[i].Update(deltaTime);
         }
 
 
-        for ( var i = 0; i < this.Objects.length; i++)
+        for ( var i = 0; i < objects.length; i++)
         {
-            if ( this.Objects[i].ToBeRemoved() )
+            if ( objects[i].ToBeRemoved() )
             {
-                this.coliderManager.DeregisterColidableObject(this.Objects[i]);
-                this.Objects.splice(i, 1);
+                this.coliderManager.DeregisterColidableObject(objects[i]);
                 i--;
             }
         }
@@ -90,10 +103,10 @@ class NewFolderTheGame
     Render()
     {
         this.gameRenderer.ClearScreen();
-
-        for ( var i = 0; i < this.Objects.length; i++)
+        var objects = this.coliderManager.GetObjects();
+        for ( var i = 0; i < objects.length; i++)
         {
-            var renderTime = this.Objects[i].RenderObject();
+            var renderTime = objects[i].RenderObject();
             this.gameRenderer.Render(renderTime);
 
             this.gameRenderer.RenderDebugCircle(renderTime);

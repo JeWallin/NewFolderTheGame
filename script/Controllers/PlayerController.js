@@ -5,7 +5,7 @@ class PlayerController extends BaseController
         super();
         console.log("PlayerController constructed");
 
-        this.colideManager = colideManager;
+        this.colideManager  = colideManager;
         this.keyManager     = keyManager;
         this.up             = up;
         this.down           = down;
@@ -14,10 +14,14 @@ class PlayerController extends BaseController
         this.offence        = offence;
         this.defence        = defence;
         this.util           = util;
+        this.cdMax          = 0.5;
+        this.cd             = 0;
     }
 
     Update(deltaTime, player)
     {
+        this.cd += deltaTime;
+
         var colidedObjects = [];
 
         var coliderSphere = player.SphereColider();
@@ -27,18 +31,36 @@ class PlayerController extends BaseController
         if(this.keyManager.IsKeyDown(this.up))
         {
             moveVector.y -= move;
+            player.facingDirection = DIRECTIONS.NORTH;
         }
         else if(this.keyManager.IsKeyDown(this.down))
         {
             moveVector.y += move;
+            player.facingDirection = DIRECTIONS.SOUTH;
         }
         if(this.keyManager.IsKeyDown(this.left))
         {
             moveVector.x -= move;
+            player.facingDirection = DIRECTIONS.WEST;
         }
         else if(this.keyManager.IsKeyDown(this.right))
         {
             moveVector.x += move;
+            player.facingDirection = DIRECTIONS.EAST;
+        }
+        
+        if( this.keyManager.IsKeyDown(this.offence) && this.cd > this.cdMax )
+        {
+            var bullet = new ProjectileStraight(player.facingDirection);
+            var behavior = new BulletBehavior(this.colideManager);
+            var effect = new SizeEffect(1, this.colideManager);
+
+            bullet.Init(behavior, effect);
+            bullet.SetPosition(player.position.x, player.position.y);
+            bullet.SetSize(5,5);
+
+            this.colideManager.RegisterColidableObject(bullet, player);
+            this.cd -= 0.5;
         }
 
         moveVector.Normalize();
@@ -46,7 +68,7 @@ class PlayerController extends BaseController
 
         coliderSphere.position = coliderSphere.position.Add(moveVector);
 
-        var colideResult = this.colideManager.ColidingWith(coliderSphere, player);
+        var colideResult = this.colideManager.IsColiding(coliderSphere, [player]);
 
         var myPosition = new vector2d(player.position.x + moveVector.x, player.position.y + moveVector.y);
         if ( !colideResult.colide )
@@ -71,7 +93,7 @@ class PlayerController extends BaseController
             player.SetPosition(otherPosition.x - player.size.x/2 + difVector.x, otherPosition.y - player.size.x/2 + difVector.y);
 
             coliderSphere = player.SphereColider();
-            colideResult = this.colideManager.ColidingWith(coliderSphere, player);
+            colideResult = this.colideManager.IsColiding(coliderSphere, [player]);
             
             if( colideResult.colide )
             {

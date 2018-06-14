@@ -75,6 +75,23 @@ class GameObject
         this.size.y = Math.max(height,1);
     }
 
+    SetSizeSafe(width, height, coliderChecker)
+    {
+        
+        var oldW = this.size.x;
+        var oldH = this.size.y;
+
+        this.SetSize(width, height);
+        var res = coliderChecker.IsColiding(this.SphereColider(), [this]);
+        console.log(res);
+        if ( res.colide )
+        {
+           this.SetSize( oldW, oldH );
+           return false;
+        }
+        return true;
+    }
+
     SetImage(image)
     {
         this.image = image;

@@ -9,7 +9,10 @@ class BasePlayer extends BaseUnit
         super.SetImage(imageList.SLIME);
         super.SetSize( 50, 50 );
         super.SetPosition( 500, 500);
-        this.controller     = undefined;
+
+        this.controller         = undefined;
+        this.facingDirection    = DIRECTIONS.NORTH;
+        this.colidable          = true;
     }
 
     Init(controller)

@@ -26,16 +26,23 @@ class ColideManager
         }
     }
 
-    ColidingWith( sphere , ignore)
+    IsColiding( sphere , ignore )
     {
         for ( var i = 0; i < this.objects.length; i++)
         {
-            if ( !(ignore === this.objects[i]) && sphere.IsColiding(this.objects[i].SphereColider()) )
+            if ( this.objects[i].colidable && 
+                !(ignore.includes(this.objects[i])) && 
+                sphere.IsColiding(this.objects[i].SphereColider()) )
             {
                 
                 return {colide: true, with: this.objects[i]};
             }
         }
         return { colide : false };
+    }
+
+    GetObjects()
+    {
+        return this.objects;
     }
 }
