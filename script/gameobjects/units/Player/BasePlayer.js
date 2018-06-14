@@ -61,9 +61,9 @@ class BasePlayer extends BaseUnit
         }
 
         moveVector.Normalize();
-        moveVector.Mult(move);
+        moveVector = moveVector.Mult(move);
 
-        coliderSphere.position.Add(moveVector);
+        coliderSphere.position = coliderSphere.position.Add(moveVector);
 
         var colideResult = colideManager.ColidingWith(coliderSphere, this);
 
@@ -75,33 +75,65 @@ class BasePlayer extends BaseUnit
         else
         {
             var colidedObjects = [];
-            do
+            colidedObjects.push(colideResult.with);
+            var colidedWith = colideResult.with;
+            var mycolider = this;
+            var otherPosition = new vector2d(colidedWith.position.x, colidedWith.position.y);
+
+            myPosition = myPosition.Add(new vector2d(this.size.x/2, this.size.y/2));
+            otherPosition = otherPosition.Add(new vector2d(colidedWith.size.x/2, colidedWith.size.y/2));
+
+            var difVector = myPosition.DiffVector(otherPosition);
+            difVector.Normalize();
+            difVector = difVector.Mult(colidedWith.size.x/2 + this.size.x/2 + 0.001);
+
+            super.SetPosition(otherPosition.x - this.size.x/2 + difVector.x, otherPosition.y - this.size.x/2 + difVector.y);
+
+            coliderSphere = super.SphereColider();
+            colideResult = colideManager.ColidingWith(coliderSphere, this);
+            
+            if( colideResult.colide )
             {
                 colidedObjects.push(colideResult.with);
-                var colidedWith = colideResult.with;
-                var mycolider = this;
-                var otherPosition = new vector2d(colidedWith.position.x, colidedWith.position.y);
-    
-                myPosition.Add(new vector2d(this.size.x/2, this.size.y/2));
-                otherPosition.Add(new vector2d(colidedWith.size.x/2, colidedWith.size.y/2));
-    
-                var difVector = myPosition.DiffVector(otherPosition);
-                difVector.Normalize();
-                difVector.Mult(colidedWith.size.x/2 + this.size.x/2 + 0.001);
+                var colidedObject0 = colidedObjects[0].SphereColider();
+                var colidedObject1 = colidedObjects[1].SphereColider();
+                var mycolider = this.SphereColider();
+                
+                var distVector = colidedObject1.position.DiffVector(colidedObject0.position);
+                var d = distVector.Length();   
+                distVector.Normalize();
 
-                super.SetPosition(otherPosition.x - this.size.x/2 + difVector.x, otherPosition.y - this.size.x/2 + difVector.y);
+                var r0 = colidedObject0.radius + mycolider.radius;
+                var r1 = colidedObject1.radius + mycolider.radius;
+                var r02 = r0*r0;
+                
+                var a = ( r02 - (r1*r1) + (d*d) ) / (2*d);
 
-                coliderSphere = super.SphereColider();
-                colideResult = colideManager.ColidingWith(coliderSphere, this);
-               
-            } while (colideResult.colide)
-            
-            if( colidedObjects.length > 1 )
-            {
+                var h = Math.sqrt(Math.abs( r02 - (a*a) ));
+
+                var newPos = new vector2d(colidedObject0.position.x, colidedObject0.position.y);
+                newPos = newPos.Add(distVector.Mult(a));
+
+                var potentialPos0 = new vector2d(-distVector.y, distVector.x).Mult(h).Add(newPos);
+                var potentialPos1 = new vector2d(distVector.y, -distVector.x).Mult(h).Add(newPos);
+
+                var potentialDist0 = mycolider.position.DistanceTo(potentialPos0);
+                var potentialDist1 = mycolider.position.DistanceTo(potentialPos1);
+
+                console.log(potentialDist0);
+                console.log(potentialDist1);
+                console.log(distVector);
+
+                if (potentialDist0 >= potentialDist1)
+                {
+                    super.SetPosition(potentialPos1.x - this.size.x/2, potentialPos1.y - this.size.x/2);
+                }
+                else
+                {
+                    super.SetPosition(potentialPos0.x - this.size.x/2, potentialPos0.y - this.size.x/2);
+                }
                 
             }
-           
-
         }
         
     }

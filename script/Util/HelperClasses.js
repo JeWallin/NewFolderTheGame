@@ -41,20 +41,27 @@ class vector2d
 
     Add(vector)
     {
-        this.x += vector.x;
-        this.y += vector.y;
+        var newVector = new vector2d(0,0);
+        newVector.x = vector.x + this.x;
+        newVector.y = vector.y + this.y;
+        return newVector;
     }
 
     Sub(vector)
     {
-        this.x -= vector.x;
-        this.y -= vector.y;
+        var newVector = new vector2d(0,0);
+        newVector.x = this.x - vector.x;
+        newVector.y = this.y - vector.x;
+        return newVector;
+
     }
 
     Mult(factor)
     {
-        this.x *= factor;
-        this.y *= factor;
+        var newVector = new vector2d(0,0);
+        newVector.x = this.x*factor;
+        newVector.y = this.y*factor;
+        return newVector;
     }
 }
 

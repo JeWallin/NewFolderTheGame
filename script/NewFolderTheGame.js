@@ -20,11 +20,26 @@ class NewFolderTheGame
         this.stone2 = new Rock();
         this.stone2.Init( new vector2d(200, 260), new vector2d(50, 50), 0);
 
+
+        this.stone3 = new Rock();
+        this.stone3.Init( new vector2d(300, 300), new vector2d(50, 50), 0);
+        this.stone4 = new Rock();
+        this.stone4.Init( new vector2d(390, 300), new vector2d(50, 50), 0);
+        
+        this.renderthis = [];
+        this.renderthis.push(this.stone);
+        this.renderthis.push(this.stone2);
+        this.renderthis.push(this.stone3);
+        this.renderthis.push(this.stone4);
+
         this.player = new BasePlayer();
         this.player.Init(this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
 
         this.coliderManager.RegisterColidableObject(this.stone);
         this.coliderManager.RegisterColidableObject(this.stone2);
+        this.coliderManager.RegisterColidableObject(this.stone3);
+        this.coliderManager.RegisterColidableObject(this.stone4);
+
         this.coliderManager.RegisterColidableObject(this.player);
 
     }
@@ -57,17 +72,18 @@ class NewFolderTheGame
     {
         this.gameRenderer.ClearScreen();
 
-        var renderThis = this.stone.RenderObject();
-        var renderAndThis = this.stone2.RenderObject();
         var renderPlayer = this.player.RenderObject();
-
-        this.gameRenderer.Render(renderThis);
-        this.gameRenderer.Render(renderAndThis);
         this.gameRenderer.Render(renderPlayer);
 
-        this.gameRenderer.RenderDebugCircle(renderThis);
-        this.gameRenderer.RenderDebugCircle(renderAndThis);
         this.gameRenderer.RenderDebugCircle(renderPlayer);
+
+        for ( var i = 0; i < this.renderthis.length; i++)
+        {
+            var renderTime = this.renderthis[i].RenderObject();
+            this.gameRenderer.Render(renderTime);
+
+            this.gameRenderer.RenderDebugCircle(renderTime);
+        }
 
 
 
