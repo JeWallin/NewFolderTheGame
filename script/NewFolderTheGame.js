@@ -33,7 +33,8 @@ class NewFolderTheGame
         this.renderthis.push(this.stone4);
 
         this.player = new BasePlayer();
-        this.player.Init(this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
+        var playerController = new PlayerController(this.coliderManager, this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
+        this.player.Init(playerController);
 
         this.coliderManager.RegisterColidableObject(this.stone);
         this.coliderManager.RegisterColidableObject(this.stone2);
@@ -65,7 +66,7 @@ class NewFolderTheGame
     Update(deltaTime)
     {
         this.stone.Update(deltaTime);
-        this.player.Update(deltaTime, this.coliderManager);
+        this.player.Update(deltaTime);
     }
 
     Render()

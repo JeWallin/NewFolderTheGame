@@ -22,7 +22,6 @@ class BaseUnit extends GameObject
     Update(deltaTime)
     {
         super.Update(deltaTime);
-
     }
 
     RenderObject()
