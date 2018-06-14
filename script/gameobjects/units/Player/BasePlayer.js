@@ -59,7 +59,7 @@ class BasePlayer extends BaseUnit
         {
             moveVector.x += move;
         }
-
+        
         moveVector.Normalize();
         moveVector = moveVector.Mult(move);
 
