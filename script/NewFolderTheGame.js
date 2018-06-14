@@ -4,8 +4,9 @@ class NewFolderTheGame
     constructor(canvasId)
     {
         console.log("NewFolderTheGame Constructed");
-        this.keyManager = new KeyManager();
 
+        this.keyManager     = new KeyManager();
+        this.coliderManager = new ColideManager();
         this.canvas         = document.getElementById(canvasId);
         this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
@@ -14,15 +15,33 @@ class NewFolderTheGame
         this.gameRenderer.ConnectContext(this.renderContext);
         this.gameRenderer.ConnectCanvas(this.canvas);
         
-      
-        this.obj = new Rock();
-        this.obj.Init(new vector2d(100, 100), new vector2d(60, 60), 3.14/2);
+        this.stone = new Rock();
+        this.stone.Init( new vector2d(200, 200), new vector2d(50, 50), 0);
+        this.stone2 = new Rock();
+        this.stone2.Init( new vector2d(200, 260), new vector2d(50, 50), 0);
+
+
+        this.stone3 = new Rock();
+        this.stone3.Init( new vector2d(300, 300), new vector2d(50, 50), 0);
+        this.stone4 = new Rock();
+        this.stone4.Init( new vector2d(390, 300), new vector2d(50, 50), 0);
+        
+        this.renderthis = [];
+        this.renderthis.push(this.stone);
+        this.renderthis.push(this.stone2);
+        this.renderthis.push(this.stone3);
+        this.renderthis.push(this.stone4);
 
         this.player = new BasePlayer();
-        this.player.Init(this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.E, KEYS.R);
+        this.player.Init(this.keyManager, KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
 
-        this.playerB = new BasePlayer();
-        this.playerB.Init(this.keyManager, KEYS.I, KEYS.K, KEYS.J, KEYS.L, KEYS.LEFT, KEYS.U, KEYS.O);    
+        this.coliderManager.RegisterColidableObject(this.stone);
+        this.coliderManager.RegisterColidableObject(this.stone2);
+        this.coliderManager.RegisterColidableObject(this.stone3);
+        this.coliderManager.RegisterColidableObject(this.stone4);
+
+        this.coliderManager.RegisterColidableObject(this.player);
+
     }
 
     Init()
@@ -45,18 +64,28 @@ class NewFolderTheGame
 
     Update(deltaTime)
     {
-        this.player.Update(deltaTime);
-        this.playerB.Update(deltaTime);
+        this.stone.Update(deltaTime);
+        this.player.Update(deltaTime, this.coliderManager);
     }
 
     Render()
     {
         this.gameRenderer.ClearScreen();
-        var renderobj = this.obj.RenderObject();
+
         var renderPlayer = this.player.RenderObject();
-        var renderPlayerB = this.playerB.RenderObject();
-        this.gameRenderer.Render(renderobj);
         this.gameRenderer.Render(renderPlayer);
-        this.gameRenderer.Render(renderPlayerB);
+
+        this.gameRenderer.RenderDebugCircle(renderPlayer);
+
+        for ( var i = 0; i < this.renderthis.length; i++)
+        {
+            var renderTime = this.renderthis[i].RenderObject();
+            this.gameRenderer.Render(renderTime);
+
+            this.gameRenderer.RenderDebugCircle(renderTime);
+        }
+
+
+
     }
 }

@@ -65,6 +65,11 @@ class GameObject
         this.colidable = colidable;
     }
 
+    GetColidable()
+    {
+        return this.colidable;
+    }
+
     RenderObject()
     {
         var renderObj = new RenderObj();
@@ -73,5 +78,11 @@ class GameObject
         renderObj.SetImage( this.image );
         renderObj.SetRotation( this.rotation );
         return renderObj;
+    }
+
+    SphereColider()
+    {
+        var sphereColider = new SphereColider( new vector2d(this.position.x + this.size.x/2, this.position.y + this.size.y/2), this.size.x/2);
+        return sphereColider;
     }
 }
