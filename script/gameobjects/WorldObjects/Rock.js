@@ -7,7 +7,7 @@ class Rock extends GameObject
         console.log("Rock Constructed");
 
         super.SetImage(graphicAssets.ROCK.image);
-        
+        super.SetRenderFunction(RenderImage);
     }
 
     Init( position, size, rotation )

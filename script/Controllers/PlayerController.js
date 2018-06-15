@@ -14,7 +14,7 @@ class PlayerController extends BaseController
         this.offence        = offence;
         this.defence        = defence;
         this.util           = util;
-        this.cdMax          = 0.2;
+        this.cdMax          = 0.5;
         this.cd             = 0;
     }
 
@@ -53,15 +53,15 @@ class PlayerController extends BaseController
         {
             var bullet = new ProjectileStraight(player.facingDirection);
             var behavior = new BulletBehavior(this.colideManager, player);
-            var effect = new SizeEffect(0.3, this.colideManager);
+            var effect = new SizeEffect(1, this.colideManager);
 
             bullet.Init(behavior, effect);
             bullet.SetPosition(player.position.x, player.position.y );
-            bullet.SetSize(10,10);
+            bullet.SetSize(40,40);
             bullet.SetSpeed(400);
 
             this.colideManager.RegisterColidableObject(bullet);
-            this.cd -= 0.1;
+            this.cd = 0;
         }
 
         moveVector.Normalize();

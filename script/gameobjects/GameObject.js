@@ -13,6 +13,7 @@ class GameObject
         this.ignoreList         = [];
         this.spriteSheet        = new vector2d(1,1);
         this.currentSprite      = 0;
+        this.maxSprites         = 1;
 
         this.IgnoreColideActor(this);
     }
@@ -26,12 +27,6 @@ class GameObject
     {
         this.position.x = x;
         this.position.y = y;
-    }
-
-    SetSize(x, y)
-    {
-        this.size.x = x;
-        this.size.y = y;
     }
 
     Init()
@@ -101,11 +96,6 @@ class GameObject
         return true;
     }
 
-    SetImage(image)
-    {
-        this.image = image;
-    }
-
     SetRotation(rotation)
     {
         this.rotation = rotation;
@@ -120,9 +110,6 @@ class GameObject
     {
         return this.colidable;
     }
-
-    
-    
 
 
 
@@ -162,6 +149,32 @@ class GameObject
         this.currentSprite = currentSprite;
     }
 
+    SetImage(image)
+    {
+        this.image = image;
+    }
+
+    SetSize(x, y)
+    {
+        this.size.x = x;
+        this.size.y = y;
+    }
+
+    SetSizeVector(sizeVector)
+    {
+        this.size = sizeVector;
+    }
+
+    SetRenderFunction(renderFunction)
+    {
+        this.renderFunction = renderFunction;
+    }
+
+    SetMaximumSprite(maxSprites)
+    {
+        this.maxSprites = maxSprites;
+    }
+
     /* GET */
 
     GetSpriteSheet()
@@ -173,4 +186,10 @@ class GameObject
     {
         return this.currentSprite;
     }
+
+    GetMaximumSprite()
+    {
+        return this.maxSprites;
+    }
+
 }
