@@ -5,7 +5,7 @@ class PlayerController extends BaseController
         super();
         console.log("PlayerController constructed");
 
-        this.colideManager = colideManager;
+        this.colideManager  = colideManager;
         this.keyManager     = keyManager;
         this.up             = up;
         this.down           = down;
@@ -14,10 +14,14 @@ class PlayerController extends BaseController
         this.offence        = offence;
         this.defence        = defence;
         this.util           = util;
+        this.cdMax          = 0.2;
+        this.cd             = 0;
     }
 
     Update(deltaTime, player)
     {
+        this.cd += deltaTime;
+
         var colidedObjects = [];
 
         var coliderSphere = player.SphereColider();
@@ -27,18 +31,37 @@ class PlayerController extends BaseController
         if(this.keyManager.IsKeyDown(this.up))
         {
             moveVector.y -= move;
+            player.facingDirection = DIRECTIONS.NORTH;
         }
         else if(this.keyManager.IsKeyDown(this.down))
         {
             moveVector.y += move;
+            player.facingDirection = DIRECTIONS.SOUTH;
         }
         if(this.keyManager.IsKeyDown(this.left))
         {
             moveVector.x -= move;
+            player.facingDirection = DIRECTIONS.WEST;
         }
         else if(this.keyManager.IsKeyDown(this.right))
         {
             moveVector.x += move;
+            player.facingDirection = DIRECTIONS.EAST;
+        }
+        
+        if( this.keyManager.IsKeyDown(this.offence) && this.cd > this.cdMax )
+        {
+            var bullet = new ProjectileStraight(player.facingDirection);
+            var behavior = new BulletBehavior(this.colideManager, player);
+            var effect = new SizeEffect(0.3, this.colideManager);
+
+            bullet.Init(behavior, effect);
+            bullet.SetPosition(player.position.x, player.position.y );
+            bullet.SetSize(10,10);
+            bullet.SetSpeed(400);
+
+            this.colideManager.RegisterColidableObject(bullet);
+            this.cd -= 0.1;
         }
 
         moveVector.Normalize();
@@ -46,7 +69,7 @@ class PlayerController extends BaseController
 
         coliderSphere.position = coliderSphere.position.Add(moveVector);
 
-        var colideResult = this.colideManager.ColidingWith(coliderSphere, player);
+        var colideResult = this.colideManager.IsColiding(coliderSphere, [player]);
 
         var myPosition = new vector2d(player.position.x + moveVector.x, player.position.y + moveVector.y);
         if ( !colideResult.colide )
@@ -59,19 +82,16 @@ class PlayerController extends BaseController
             colidedObjects.push(colideResult.with);
             var colidedWith = colideResult.with;
             var mycolider = player;
-            var otherPosition = new vector2d(colidedWith.position.x, colidedWith.position.y);
-
-            myPosition = myPosition.Add(new vector2d(player.size.x/2, player.size.y/2));
-            otherPosition = otherPosition.Add(new vector2d(colidedWith.size.x/2, colidedWith.size.y/2));
+            var otherPosition = colidedWith.SphereColider().position;
 
             var difVector = myPosition.DiffVector(otherPosition);
             difVector.Normalize();
             difVector = difVector.Mult(colidedWith.size.x/2 + player.size.x/2 + 0.001);
 
-            player.SetPosition(otherPosition.x - player.size.x/2 + difVector.x, otherPosition.y - player.size.x/2 + difVector.y);
+            player.SetPosition(otherPosition.x + difVector.x, otherPosition.y  + difVector.y);
 
             coliderSphere = player.SphereColider();
-            colideResult = this.colideManager.ColidingWith(coliderSphere, player);
+            colideResult = this.colideManager.IsColiding(coliderSphere, [player]);
             
             if( colideResult.colide )
             {
@@ -100,14 +120,16 @@ class PlayerController extends BaseController
 
                 var potentialDist0 = mycolider.position.DistanceTo(potentialPos0);
                 var potentialDist1 = mycolider.position.DistanceTo(potentialPos1);
+            
+
 
                 if (potentialDist0 >= potentialDist1)
                 {
-                    player.SetPosition(potentialPos1.x - player.size.x/2, potentialPos1.y - player.size.x/2);
+                    player.SetPosition(potentialPos1.x , potentialPos1.y );
                 }
                 else
                 {
-                    player.SetPosition(potentialPos0.x - player.size.x/2, potentialPos0.y - player.size.x/2);
+                    player.SetPosition(potentialPos0.x , potentialPos0.y );
                 }
             }
         }

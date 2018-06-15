@@ -1,52 +1,87 @@
 
-class Renderer2d extends Renderer
+class Renderer2d
 {
-    constructor()
-    {
-        super();
+    /* NEW RENDER! */
 
+    constructor( canvas, renderFunction )
+    {
+        this.renderContext  = undefined;
+        this.translate      = new vector2d(0,0);
+        this.rotation       = 0;
+        this.scale          = new vector2d(0,0);
+        this.renderFunction = renderFunction;
+        this.viewPortSize   = new vector2d(0, 0);
+
+        this.SetTargetCanvas(canvas);
     }
 
-    ClearScreen()
+    SetRenderContext( renderContext )
     {
-        this.renderContext.clearRect(0,0, this.canvas.width, this.canvas.height);
-    }
-
-    SetUpForRendering()
-    {
-        this.renderContext.translate( 0,0 );
-        this.renderContext.rotate( 0 );
-    }
-
-    Render( object )
-    {   
-        this.SetUpForRendering();
-
-        if ( this.renderContext != undefined )
+        if( renderContext != undefined )
         {
-            object.Render(this.renderContext);
+            this.renderContext = renderContext;
         }
-        else
+    }
+
+    SetTranslate( translateVector )
+    {
+        this.translate = translateVector;
+    }
+
+    SetScale( scaleVector )
+    {
+        this.scale = scaleVector;
+    }
+
+    SetRotationAngle( rotationAngle )
+    {
+        this.rotation = (3.14/180) * rotationAngle;
+    }
+
+    SetRotationRadians( rotationRadians )
+    {
+        this.rotation = rotationRadians;
+    }
+
+    SetRenderFunction( renderFunction )
+    {
+        if ( renderFunction != undefined )
         {
-            alert("No render context found");
+            this.renderFunction =  renderFunction;
         }
-        
     }
 
-    RenderAll( objects )
+    SetViewPortSize( viewPortSize )
     {
-
+        this.viewPortSize = viewPortSize;
     }
 
-    RenderDebugBox(object)
+    SetTargetCanvas( canvas )
     {
-        this.renderContext.fillRect(object.position.x, object.position.y, object.size.x, object.size.y );
+        this.SetViewPortSize( new vector2d(canvas.width, canvas.height ));
+        this.SetRenderContext( canvas.getContext("2d") );
     }
 
-    RenderDebugCircle(object)
+    InitNewFrame()
     {
-        this.renderContext.beginPath();
-        this.renderContext.arc(object.position.x + object.size.x / 2, object.position.y + object.size.y / 2, (object.size.x+object.size.y)/4,0, 2*3.14 );
-        this.renderContext.stroke();
+        this.renderContext.clearRect(0,0, this.viewPortSize.x, this.viewPortSize.y);
     }
+
+    PreRender()
+    {
+        this.renderContext.translate( this.translate.x, this.translate.y  );
+        this.renderContext.rotate( this.rotation  );
+    }
+
+    Render(renderObj)
+    {
+        this.renderFunction( this.renderContext, renderObj );
+    }
+
+    PostRender()
+    {
+        this.renderContext.translate( -this.translate.x, -this.translate.y  );
+        this.renderContext.rotate( -this.rotation  );
+    }
+    
 }

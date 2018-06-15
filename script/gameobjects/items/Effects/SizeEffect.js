@@ -2,22 +2,20 @@
 
 class SizeEffect
 {
-    constructor(Size)
+    constructor(Size, objectManager)
     {
         this.Size = Size;
         this.time = 2;
         this.timePassed = 0;
+        this.objectManager = objectManager;
     }
 
     Update(deltaTime, obj)
     {
-        this.timePassed += deltaTime;
-
-        var toChange = (deltaTime/this.time) * this.Size;
-        
-        obj.SetSize(obj.size.x + toChange, obj.size.y + toChange );
-        
-        return this.timePassed >= this.time;
+        if (obj.SetSizeSafe(obj.size.x + this.Size, obj.size.y + this.Size , this.objectManager))
+        {
+            obj.SetPosition(obj.position.x, obj.position.y);
+        }
+        return true;
     }
-
 }

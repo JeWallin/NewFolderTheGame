@@ -1,9 +1,10 @@
 
 class BulletBehavior
 {
-    constructor(colideManager)
+    constructor(colideManager, creator)
     {
         this.colideManager= colideManager;
+        this.ignoreList = [this, creator];
     }
 
     Update(deltaTime, projectile)
@@ -38,7 +39,7 @@ class BulletBehavior
 
         var coldider = projectile.SphereColider();
 
-        var colideResult = this.colideManager.ColidingWith(coldider, projectile);
+        var colideResult = this.colideManager.IsColiding(coldider, this.ignoreList);
 
         if ( colideResult.colide )
         {
