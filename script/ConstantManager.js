@@ -1,9 +1,10 @@
 
 const graphicAssets = 
 {
-    ROCK: { image: document.getElementById("rockImage"), spriteSheet: new vector2d( 1 , 1 )},
-    PLAYER: { image: document.getElementById("playerImage"), spriteSheet: new vector2d( 1 , 1 )},
-    SLIMERAIN: { image: document.getElementById("slimeRain"), spriteSheet: new vector2d( 6 , 4 )},
+    ROCK: { image: document.getElementById("rockImage"), spriteSheet: new vector2d( 1 , 1 ), numSprites: 1},
+    PLAYER: { image: document.getElementById("playerImage"), spriteSheet: new vector2d( 1 , 1 ), numSprites: 1},
+    SLIMERAIN: { image: document.getElementById("slimeRainImage"), spriteSheet: new vector2d( 6 , 4 ), numSprites: 24},
+    FIREBALL: { image: document.getElementById("fireSpriteImage"), spriteSheet: new vector2d( 5 , 4 ), numSprites: 18},
 };
 
 const DIRECTIONS = {NORTH: 1, WEST: 2, SOUTH: 3, EAST: 4 };

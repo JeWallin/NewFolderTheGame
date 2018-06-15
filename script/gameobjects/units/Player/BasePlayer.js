@@ -14,6 +14,7 @@ class BasePlayer extends BaseUnit
         this.controller         = undefined;
         this.facingDirection    = DIRECTIONS.NORTH;
         this.colidable          = true;
+        super.SetRenderFunction(RenderImage);
     }
 
     Init(controller)
