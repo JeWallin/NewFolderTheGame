@@ -6,7 +6,7 @@ class ProjectileStraight extends GameObject
         super();
         this.projectorBehavior  = undefined; // How will the behavior be, this will let us know when the effect will be taking effect
         this.projectorEffect    = undefined;
-        this.image              = imageList.ROCK;
+        this.image              = graphicAssets.ROCK.image;
         this.size.x             = 20;
         this.size.y             = 20;
         this.speed              = 50;
