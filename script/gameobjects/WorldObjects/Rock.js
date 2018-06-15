@@ -6,7 +6,7 @@ class Rock extends GameObject
         super();
         console.log("Rock Constructed");
 
-        super.SetImage(imageList.ROCK);
+        super.SetImage(graphicAssets.ROCK.image);
         
     }
 

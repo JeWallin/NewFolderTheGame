@@ -10,10 +10,8 @@ class NewFolderTheGame
         this.canvas         = document.getElementById(canvasId);
         this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
-        this.gameRenderer   = new Renderer2d();
 
-        this.gameRenderer.ConnectContext(this.renderContext);
-        this.gameRenderer.ConnectCanvas(this.canvas);
+        this.gameRenderer   = new Renderer2d(this.canvas, RenderImage);
         
         this.CreateObjects();
     }
@@ -47,13 +45,16 @@ class NewFolderTheGame
                 var sizeXY =   20 + Math.random()*100;
                 var size = new vector2d( sizeXY, sizeXY);
                 var toAdd = new Rock();
+                
                 toAdd.Init(pos, size, 0);
-                console.log(pos);
 
                 var res = this.coliderManager.IsColiding(toAdd.SphereColider(), []);
 
                 if ( !res.colide )
                 {
+                    toAdd.IgnoreColideActor(player);
+                    toAdd.IgnoreColideActor(player2);
+
                     this.coliderManager.RegisterColidableObject(toAdd);
                     
                     break;
@@ -102,17 +103,21 @@ class NewFolderTheGame
 
     Render()
     {
-        this.gameRenderer.ClearScreen();
+        this.gameRenderer.InitNewFrame();
         var objects = this.coliderManager.GetObjects();
-        for ( var i = 0; i < objects.length; i++)
+
+        for( var i = 0; i < objects.length; i++)
         {
-            var renderTime = objects[i].RenderObject();
-            this.gameRenderer.Render(renderTime);
+            var object = objects[i].RenderObject();
 
-            this.gameRenderer.RenderDebugCircle(renderTime);
+            this.gameRenderer.SetTranslate(object.GetTranslateVector());
+            this.gameRenderer.SetRotationRadians(object.GetRotationRadians());
+            this.gameRenderer.SetRenderFunction(object.GetRenderFunction());
+
+            this.gameRenderer.PreRender();
+            this.gameRenderer.Render( object );
+            this.gameRenderer.PostRender();
         }
-
-
 
     }
 }

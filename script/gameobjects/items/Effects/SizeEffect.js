@@ -14,7 +14,7 @@ class SizeEffect
     {
         if (obj.SetSizeSafe(obj.size.x + this.Size, obj.size.y + this.Size , this.objectManager))
         {
-            obj.SetPosition(obj.position.x - this.Size/2, obj.position.y - this.Size/2);
+            obj.SetPosition(obj.position.x, obj.position.y);
         }
         return true;
     }

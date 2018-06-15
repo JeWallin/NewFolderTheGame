@@ -29,6 +29,11 @@ class ProjectileStraight extends GameObject
         this.projectorEffect = effect;
     }
 
+    SetSpeed(speed)
+    {
+        this.speed = speed;
+    }
+
     Update(deltaTime)
     {
         super.Update(deltaTime);

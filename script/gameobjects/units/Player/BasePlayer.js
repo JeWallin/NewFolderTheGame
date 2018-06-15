@@ -6,7 +6,8 @@ class BasePlayer extends BaseUnit
         super();
         console.log("BasePlayer constructed");
 
-        super.SetImage(imageList.SLIME);
+        super.SetImage(graphicAssets.PLAYER.image);
+        
         super.SetSize( 50, 50 );
         super.SetPosition( 500, 500);
 

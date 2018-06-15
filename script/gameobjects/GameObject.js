@@ -2,15 +2,24 @@ class GameObject
 {
     constructor()
     {
-        console.log("GameObject constructed");
+        this.position           = new vector2d(0, 0);
+        this.size               = new vector2d(10, 10);
+        this.image              = undefined;
+        this.renderFunction     = undefined;
+        this.rotation           = 0;
+        this.colidable          = false;
+        this.toDestroy          = false;
+        this.Effects            = [];
+        this.ignoreList         = [];
+        this.spriteSheet        = new vector2d(1,1);
+        this.currentSprite      = 0;
 
-        this.position   = new vector2d(0, 0);
-        this.size       = new vector2d(10, 10);
-        this.image      = undefined;
-        this.rotation   = 0;
-        this.colidable  = false;
-        this.toDestroy  = false;
-        this.Effects    = [];
+        this.IgnoreColideActor(this);
+    }
+
+    IgnoreColideActor(actor)
+    {
+        this.ignoreList.push(actor);
     }
 
     SetPosition(x, y)
@@ -82,8 +91,8 @@ class GameObject
         var oldH = this.size.y;
 
         this.SetSize(width, height);
-        var res = coliderChecker.IsColiding(this.SphereColider(), [this]);
-        console.log(res);
+        var res = coliderChecker.IsColiding(this.SphereColider(), this.ignoreList);
+
         if ( res.colide )
         {
            this.SetSize( oldW, oldH );
@@ -112,13 +121,22 @@ class GameObject
         return this.colidable;
     }
 
+    
+    
+
+
+
+    /* REFACTORED */
+
     RenderObject()
     {
-        var renderObj = new RenderObj();
-        renderObj.SetPosition( this.position.x, this.position.y );
-        renderObj.SetSize( this.size.x, this.size.y);
-        renderObj.SetImage( this.image );
-        renderObj.SetRotation( this.rotation );
+        var renderObj = new RenderObj( this.renderFunction );
+        renderObj.SetPosition( new vector2d(this.position.x, this.position.y) );
+        renderObj.SetSize( new vector2d(this.size.x, this.size.y) );
+        renderObj.SetRotationAngle( this.rotation );
+        renderObj.SetImage ( this.image );
+        renderObj.SetSpriteSheetVector( new vector2d( this.spriteSheet.x, this.spriteSheet.y) );
+        renderObj.SetCurrentSprite( this.currentSprite );
         return renderObj;
     }
 
@@ -129,7 +147,30 @@ class GameObject
 
     SphereColider()
     {
-        var sphereColider = new SphereColider( new vector2d(this.position.x + this.size.x/2, this.position.y + this.size.y/2), this.size.x/2);
+        var sphereColider = new SphereColider( new vector2d(this.position.x , this.position.y ), this.size.x/2 );
         return sphereColider;
+    }
+
+    /* SET  */
+    SetSpriteSheet( spriteSheet )
+    {
+        this.spriteSheet = spriteSheet;
+    }
+
+    SetCurrentSprite ( currentSprite )
+    {
+        this.currentSprite = currentSprite;
+    }
+
+    /* GET */
+
+    GetSpriteSheet()
+    {
+        return this.spriteSheet;
+    }
+
+    GetCurrentSprite()
+    {
+        return this.currentSprite;
     }
 }

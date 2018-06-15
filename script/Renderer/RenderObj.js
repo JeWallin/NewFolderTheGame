@@ -1,45 +1,99 @@
 
 class RenderObj
 {
-    constructor()
+    constructor( renderFunction )
     {
-        this.position = new vector2d(0,0);
-        this.size = new vector2d(10,10);
-        this.rotation = 0;
-        this.image = undefined;
+        this.position           = new vector2d( 0, 0 );
+        this.size               = new vector2d( 10, 10 );
+        this.rotation           = 0;
+        this.image              = undefined;
+        this.renderFunction     = renderFunction;
+
+        /* sprite sheets */
+        this.spriteSheetVector  = new vector2d( 1, 1);
+        this.currentSprite      = 0;
     }
 
-    SetPosition(x, y)
+    /* GET FUNCTIONS */
+
+    GetTranslateVector()
     {
-        this.position.x = x;
-        this.position.y = y;
+        return this.position;
     }
 
-    SetSize(width, height)
+    GetScaleVector()
     {
-        this.size.x = width;
-        this.size.y = height;
+        return this.size;
     }
 
-    SetRotation(rotation)
+    GetRotationRadians()
     {
-        this.rotation = rotation;
+        return this.rotation;
     }
 
-    SetImage(image)
+    GetImage()
     {
-        this.image = image;
+        return this.image;
     }
 
-    Render(context)
+    GetRenderFunction()
     {
-        var transformX = this.position.x + this.size.x/2;
-        var transformY = this.position.y + this.size.y/2;
-        context.translate( transformX, transformY  );
-        context.rotate( this.rotation );
-        context.drawImage( this.image, -this.size.x/2, -this.size.y/2, this.size.x, this.size.y );
-        context.rotate( -this.rotation );
-        context.translate( -transformX, -transformY );
+        return this.renderFunction;
+    }
+
+    GetSpriteSheetVector()
+    {
+        return this.spriteSheetVector;
+    }
+
+    GetCurrentSprite()
+    {
+        return this.currentSprite;
+    }
+
+
+
+
+    /* SET FUNCTIONS */
+
+    SetPosition( positionVector )
+    {
+        this.position = positionVector;
+    }
+
+    SetSize( sizeVector )
+    {
+        this.size = sizeVector;
+    }
+
+    SetRotationAngle( rotationAngle )
+    {
+        this.rotation = (3.14/180) * rotationAngle;
+    }
+
+    SetRotationRadians( rotationRadians )
+    {
+        this.rotation = rotationRadians;
+    }
+
+    SetImage( imageData )
+    {
+        this.image = imageData;
+    }
+
+    SetRenderFunction( renderFunction )
+    {
+        this.renderFunction = renderFunction;
+    }
+
+    SetSpriteSheetVector( spriteSheetVector )
+    {
+        this.spriteSheetVector = spriteSheetVector;
+    }
+
+    SetCurrentSprite( currentSprite ) 
+    {
+        this.currentSprite = currentSprite;
     }
 
 }
