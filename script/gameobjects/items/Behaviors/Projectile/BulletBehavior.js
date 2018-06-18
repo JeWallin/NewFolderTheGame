@@ -45,7 +45,7 @@ class BulletBehavior
         {
             colideResult.with.AffectedBy(projectile.projectorEffect);
             
-            projectile.toDestroy = true;
+            //projectile.toDestroy = true;
         }
     }
 }
