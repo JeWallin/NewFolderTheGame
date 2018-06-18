@@ -1,5 +1,5 @@
 
-class ColideManager
+class ObjectManager
 {
     constructor()
     {
@@ -8,7 +8,7 @@ class ColideManager
         this.objects = [];
     }
 
-    RegisterColidableObject( object )
+    RegisterObject( object )
     {
         if( !this.objects.includes( object ) )
         {
@@ -16,7 +16,7 @@ class ColideManager
         }
     }
 
-    DeregisterColidableObject( object )
+    DeregisterObject( object )
     {   
         if ( this.objects.includes( object ) )
         {

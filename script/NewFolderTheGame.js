@@ -6,7 +6,7 @@ class NewFolderTheGame
         console.log("NewFolderTheGame Constructed");
 
         this.keyManager     = new KeyManager();
-        this.coliderManager = new ColideManager();
+        this.objectManager = new ObjectManager();
         this.canvas         = document.getElementById(canvasId);
         this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
@@ -22,9 +22,9 @@ class NewFolderTheGame
         var player = new BasePlayer();
         
         var player2 = new BasePlayer();
-        var playerController = new PlayerController(this.coliderManager, this.keyManager, 
+        var playerController = new PlayerController(this.objectManager, this.keyManager, 
             KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
-        var player2Controller = new PlayerController(this.coliderManager, this.keyManager, 
+        var player2Controller = new PlayerController(this.objectManager, this.keyManager, 
             KEYS.I, KEYS.K, KEYS.J, KEYS.L, KEYS.RIGHT, KEYS.Q, KEYS.E);
         
         player.SetPosition(500, 500);
@@ -33,8 +33,8 @@ class NewFolderTheGame
         player.Init(playerController);
         player2.Init(player2Controller);
         
-        this.coliderManager.RegisterColidableObject(player);
-        this.coliderManager.RegisterColidableObject(player2);
+        this.objectManager.RegisterObject(player);
+        this.objectManager.RegisterObject(player2);
         
         var lotsOfRocks = 40;
         for( var i = 0; i < lotsOfRocks; i++ )
@@ -48,14 +48,14 @@ class NewFolderTheGame
                 
                 toAdd.Init(pos, size, 0);
 
-                var res = this.coliderManager.IsColiding(toAdd.SphereColider(), []);
+                var res = this.objectManager.IsColiding(toAdd.SphereColider(), []);
 
                 if ( !res.colide )
                 {
                     toAdd.IgnoreColideActor(player);
                     toAdd.IgnoreColideActor(player2);
 
-                    this.coliderManager.RegisterColidableObject(toAdd);
+                    this.objectManager.RegisterObject(toAdd);
                     
                     break;
                 }
@@ -83,7 +83,7 @@ class NewFolderTheGame
 
     Update(deltaTime)
     {
-        var objects = this.coliderManager.GetObjects();
+        var objects = this.objectManager.GetObjects();
 
         for ( var i = 0; i < objects.length; i++)
         {
@@ -95,7 +95,7 @@ class NewFolderTheGame
         {
             if ( objects[i].ToBeRemoved() )
             {
-                this.coliderManager.DeregisterColidableObject(objects[i]);
+                this.objectManager.DeregisterObject(objects[i]);
                 i--;
             }
         }
@@ -104,7 +104,7 @@ class NewFolderTheGame
     Render()
     {
         this.gameRenderer.InitNewFrame();
-        var objects = this.coliderManager.GetObjects();
+        var objects = this.objectManager.GetObjects();
 
         for( var i = 0; i < objects.length; i++)
         {

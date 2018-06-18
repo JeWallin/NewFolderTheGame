@@ -12,8 +12,6 @@ function RenderSpriteSheet(renderContext, renderObject)
 
     var width = image.width / spriteSheetVector.x;
     var height = image.height / spriteSheetVector.y;
-
-    console.log(renderObject);
-
+    
     renderContext.drawImage(image, col*height, row*width, width, height, -scale.x/2, -scale.y/2, scale.x, scale.y);
 }
