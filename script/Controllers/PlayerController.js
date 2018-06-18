@@ -58,7 +58,8 @@ class PlayerController extends BaseController
             bullet.Init(behavior, effect);
             bullet.SetPosition(player.position.x, player.position.y );
             bullet.SetSize(40,40);
-            bullet.SetSpeed(400);
+            bullet.SetSpeed(200);
+
 
             this.objectManager.RegisterObject(bullet);
             this.cd = 0;

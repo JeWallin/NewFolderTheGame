@@ -10,7 +10,7 @@ class ProjectileStraight extends GameObject
         this.speed              = 50;
 
         this.currentSpriteTime  = 0;
-        this.changeSprite       = 0.05;
+        this.changeSprite       = 0.001;
 
         super.SetSize(new vector2d( 20, 20 ));
         super.SetImage(graphicAssets.FIREBALL.image);
@@ -53,6 +53,10 @@ class ProjectileStraight extends GameObject
             var currentSprite = super.GetCurrentSprite();
             var newSprite = ( currentSprite + 1 ) % ( super.GetMaximumSprite() );
 
+            if(newSprite === 0)
+            {
+                super.toDestroy =true;
+            }
             super.SetCurrentSprite(newSprite);
         }
         
