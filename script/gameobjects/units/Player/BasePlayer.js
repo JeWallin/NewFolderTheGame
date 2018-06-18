@@ -7,14 +7,14 @@ class BasePlayer extends BaseUnit
         console.log("BasePlayer constructed");
 
         super.SetImage(graphicAssets.PLAYER.image);
+        super.SetRenderFunction(RenderImage);
+        super.SetTag(TAGS.BASEPLAYER);
         
         super.SetSize( 50, 50 );
         super.SetPosition( 500, 500);
 
         this.controller         = undefined;
-        this.facingDirection    = DIRECTIONS.NORTH;
         this.colidable          = true;
-        super.SetRenderFunction(RenderImage);
     }
 
     Init(controller)

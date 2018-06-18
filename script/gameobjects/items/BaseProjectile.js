@@ -1,29 +1,40 @@
 
-class ProjectileStraight extends GameObject
+class BaseProjectile extends GameObject
 {
-    constructor(direction)
+    constructor()
     {
         super();
+        //super.SetColidable(true);
         this.projectorBehavior  = undefined; // How will the behavior be, this will let us know when the effect will be taking effect
         this.projectorEffect    = undefined;
-        this.direction          = direction;
-        this.speed              = 50;
+        this.direction          = new vector2d( 1, 1 );
+        this.speed              = 50;        
 
         this.currentSpriteTime  = 0;
-        this.changeSprite       = 0.001;
+        this.changeSprite       = 0.5;
 
         super.SetSize(new vector2d( 20, 20 ));
-        super.SetImage(graphicAssets.FIREBALL.image);
-        super.SetSpriteSheet(graphicAssets.FIREBALL.spriteSheet);
+        super.SetImage(graphicAssets.ACIDBALL.image);
+        super.SetSpriteSheet(graphicAssets.ACIDBALL.spriteSheet);
         super.SetCurrentSprite(0);
         super.SetRenderFunction(RenderSpriteSheet);
-        super.SetMaximumSprite(graphicAssets.FIREBALL.numSprites);
+        super.SetMaximumSprite(graphicAssets.ACIDBALL.numSprites);
     }
 
     Init(behavior, effect)
     {
         this.projectorBehavior  = behavior;
         this.projectorEffect    = effect;
+    }
+
+    GetDirection()
+    {
+        return this.direction;
+    }
+
+    SetDirection(direction)
+    {
+        this.direction = direction;
     }
 
     SetBehaviour(behavior)

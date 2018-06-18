@@ -14,6 +14,7 @@ class GameObject
         this.spriteSheet        = new vector2d(1,1);
         this.currentSprite      = 0;
         this.maxSprites         = 1;
+        this.tag                = TAGS.GAMEOBJECT;
 
         this.IgnoreColideActor(this);
     }
@@ -175,8 +176,17 @@ class GameObject
         this.maxSprites = maxSprites;
     }
 
+    SetTag(tag)
+    {
+        this.tag = tag;
+    }
+
     /* GET */
 
+    GetTag()
+    {
+        return this.tag;
+    }
     GetSpriteSheet()
     {
         return this.spriteSheet;
@@ -190,6 +200,11 @@ class GameObject
     GetMaximumSprite()
     {
         return this.maxSprites;
+    }
+
+    GetPosition()
+    {
+        return this.position;
     }
 
 }

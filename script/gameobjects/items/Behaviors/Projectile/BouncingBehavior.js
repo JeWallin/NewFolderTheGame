@@ -1,5 +1,5 @@
 
-class BulletBehavior
+class BouncingBehavior
 {
     constructor(objectManager, creator)
     {
@@ -26,8 +26,17 @@ class BulletBehavior
         if ( colideResult.colide )
         {
             colideResult.with.AffectedBy(projectile.projectorEffect);
-            
-            //projectile.toDestroy = true;
+
+            this.ignoreList = [this, colideResult.with];
+
+            var colidedWith = colideResult.with;
+            var otherPosition = colidedWith.SphereColider().position;
+
+            var difVector = projectile.position.DiffVector(otherPosition);
+            difVector.Normalize();
+
+            projectile.SetDirection(difVector);
+
         }
     }
 }

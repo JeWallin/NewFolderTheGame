@@ -48,24 +48,46 @@ class PlayerController extends BaseController
             moveVector.x += move;
             player.facingDirection = DIRECTIONS.EAST;
         }
+
+        moveVector.Normalize();
+        player.SetDirection(moveVector);
         
         if( this.keyManager.IsKeyDown(this.offence) && this.cd > this.cdMax )
         {
-            var bullet = new ProjectileStraight(player.facingDirection);
-            var behavior = new BulletBehavior(this.objectManager, player);
-            var effect = new SizeEffect(1, this.objectManager);
+            var bullet = new BaseProjectile();
+            var behavior = new BouncingBehavior(this.objectManager, player);
+            var effect = new DamageEffect(1, this.objectManager);
 
             bullet.Init(behavior, effect);
             bullet.SetPosition(player.position.x, player.position.y );
+            bullet.SetDirection(player.GetFacingDirection());
             bullet.SetSize(40,40);
             bullet.SetSpeed(200);
+            bullet.SetColidable(true);
 
 
             this.objectManager.RegisterObject(bullet);
             this.cd = 0;
         }
 
-        moveVector.Normalize();
+        if( this.keyManager.IsKeyDown(this.util) && this.cd > this.cdMax )
+        {
+            var bullet = new BaseProjectile();
+            var behavior = new BulletBehavior(this.objectManager, player);
+            var effect = new SizeEffect(1, this.objectManager);
+
+            bullet.Init(behavior, effect);
+            bullet.SetPosition(player.position.x, player.position.y );
+            bullet.SetDirection(player.GetFacingDirection());
+            bullet.SetSize(40,40);
+            bullet.SetSpeed(200);
+           // bullet.SetColidable(true);
+
+            this.objectManager.RegisterObject(bullet);
+            this.cd = 0;
+        }
+
+
         moveVector = moveVector.Mult(move);
 
         coliderSphere.position = coliderSphere.position.Add(moveVector);
