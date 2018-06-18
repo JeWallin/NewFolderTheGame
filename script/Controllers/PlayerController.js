@@ -24,48 +24,77 @@ class PlayerController extends BaseController
 
         var colidedObjects = [];
 
-        var coliderSphere = player.SphereColider();
+        
         var moveVector = new vector2d(0, 0);
         var move = deltaTime*player.speed;
 
         if(this.keyManager.IsKeyDown(this.up))
         {
             moveVector.y -= move;
-            player.facingDirection = DIRECTIONS.NORTH;
         }
         else if(this.keyManager.IsKeyDown(this.down))
         {
             moveVector.y += move;
-            player.facingDirection = DIRECTIONS.SOUTH;
         }
         if(this.keyManager.IsKeyDown(this.left))
         {
             moveVector.x -= move;
-            player.facingDirection = DIRECTIONS.WEST;
         }
         else if(this.keyManager.IsKeyDown(this.right))
         {
             moveVector.x += move;
-            player.facingDirection = DIRECTIONS.EAST;
         }
-        
+
+        moveVector.Normalize();
+        player.SetDirection(moveVector);
+        var bulletSpeed = 225;
+
+        if ( moveVector.Length() > 0)
+        {
+            bulletSpeed += player.speed;
+        }
         if( this.keyManager.IsKeyDown(this.offence) && this.cd > this.cdMax )
         {
-            var bullet = new ProjectileStraight(player.facingDirection);
-            var behavior = new BulletBehavior(this.objectManager, player);
-            var effect = new SizeEffect(1, this.objectManager);
+            var bullet = new BaseProjectile();
+            var behavior = new BouncingBehavior(this.objectManager, [player, bullet]);
+            var effect = new DamageEffect(1, this.objectManager);
 
             bullet.Init(behavior, effect);
             bullet.SetPosition(player.position.x, player.position.y );
+            bullet.SetDirection(player.GetFacingDirection());
+            bullet.SetChangeSpeed(0.01);
+            bullet.SetSpriteData(graphicAssets.FIREBALL);
             bullet.SetSize(40,40);
-            bullet.SetSpeed(200);
+            bullet.SetSpeed(bulletSpeed);
+            bullet.SetColidable(true);
 
 
             this.objectManager.RegisterObject(bullet);
             this.cd = 0;
         }
 
-        moveVector.Normalize();
+        if( this.keyManager.IsKeyDown(this.util) && this.cd > this.cdMax )
+        {
+            var bullet = new BaseProjectile();
+            var behavior = new BulletBehavior(this.objectManager, [player, bullet]);
+            var effect = new SizeEffect(1, this.objectManager);
+
+            bullet.Init(behavior, effect);
+            bullet.SetPosition(player.position.x, player.position.y );
+            bullet.SetDirection(player.GetFacingDirection());
+            bullet.SetChangeSpeed(0.01);
+            bullet.SetSpriteData(graphicAssets.ACIDBALL);
+            bullet.SetTimeToDie(new TimeKill(0.3));
+            bullet.SetSize(40,40);
+            bullet.SetSpeed(bulletSpeed);
+            bullet.SetColidable(false);
+
+            this.objectManager.RegisterObject(bullet);
+            this.cd = 0;
+        }
+
+        var coliderSphere = player.SphereColider();
+
         moveVector = moveVector.Mult(move);
 
         coliderSphere.position = coliderSphere.position.Add(moveVector);
@@ -77,29 +106,29 @@ class PlayerController extends BaseController
         {
             player.SetPosition(myPosition.x, myPosition.y);
         }
-        else
+        else if ( colideResult.with.GetTag() == TAGS.NOTMOVABLE || colideResult.with.GetTag() == TAGS.BASEPLAYER )
         {
             var colidedObjects = [];
             colidedObjects.push(colideResult.with);
-            var colidedWith = colideResult.with;
-            var mycolider = player;
-            var otherPosition = colidedWith.SphereColider().position;
+            var colidedWith = colideResult.with.SphereColider();
+            var mycolider = player.SphereColider();
+            var otherPosition = colidedWith.position;
 
             var difVector = myPosition.DiffVector(otherPosition);
             difVector.Normalize();
-            difVector = difVector.Mult(colidedWith.size.x/2 + player.size.x/2 + 0.001);
+            difVector = difVector.Mult(colidedWith.radius + mycolider.radius + 0.001);
+ 
 
             player.SetPosition(otherPosition.x + difVector.x, otherPosition.y  + difVector.y);
 
-            coliderSphere = player.SphereColider();
-            colideResult = this.objectManager.IsColiding(coliderSphere, [player]);
+            colideResult = this.objectManager.IsColiding(mycolider, [player, colideResult.with]);
             
+
             if( colideResult.colide )
             {
                 colidedObjects.push(colideResult.with);
                 var colidedObject0 = colidedObjects[0].SphereColider();
                 var colidedObject1 = colidedObjects[1].SphereColider();
-                var mycolider = player.SphereColider();
                 
                 var distVector = colidedObject1.position.DiffVector(colidedObject0.position);
                 var d = distVector.Length();   
@@ -121,8 +150,6 @@ class PlayerController extends BaseController
 
                 var potentialDist0 = mycolider.position.DistanceTo(potentialPos0);
                 var potentialDist1 = mycolider.position.DistanceTo(potentialPos1);
-            
-
 
                 if (potentialDist0 >= potentialDist1)
                 {
@@ -133,6 +160,9 @@ class PlayerController extends BaseController
                     player.SetPosition(potentialPos0.x , potentialPos0.y );
                 }
             }
+        }
+        else{
+            player.SetPosition(myPosition.x, myPosition.y);
         }
     }
 }

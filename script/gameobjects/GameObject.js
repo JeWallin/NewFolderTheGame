@@ -14,6 +14,8 @@ class GameObject
         this.spriteSheet        = new vector2d(1,1);
         this.currentSprite      = 0;
         this.maxSprites         = 1;
+        this.tag                = TAGS.GAMEOBJECT;
+        this.colidablePadding   = 1;
 
         this.IgnoreColideActor(this);
     }
@@ -27,6 +29,13 @@ class GameObject
     {
         this.position.x = x;
         this.position.y = y;
+    }
+
+    
+
+    SetColidePadding(colidePadding)
+    {
+        this.colidablePadding = colidePadding;
     }
 
     Init()
@@ -67,34 +76,7 @@ class GameObject
         renderContext.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
-    SetPosition(x, y)
-    {
-        this.position.x = x;
-        this.position.y = y;
-    }
-
-    SetSize( width, height )
-    {
-        this.size.x = Math.max(width, 1);
-        this.size.y = Math.max(height,1);
-    }
-
-    SetSizeSafe(width, height, coliderChecker)
-    {
-        
-        var oldW = this.size.x;
-        var oldH = this.size.y;
-
-        this.SetSize(width, height);
-        var res = coliderChecker.IsColiding(this.SphereColider(), this.ignoreList);
-
-        if ( res.colide )
-        {
-           this.SetSize( oldW, oldH );
-           return false;
-        }
-        return true;
-    }
+    
 
     SetRotation(rotation)
     {
@@ -135,7 +117,7 @@ class GameObject
 
     SphereColider()
     {
-        var sphereColider = new SphereColider( new vector2d(this.position.x , this.position.y ), this.size.x/2 );
+        var sphereColider = new SphereColider( new vector2d(this.position.x , this.position.y ), (this.size.x/2)*this.colidablePadding );
         return sphereColider;
     }
 
@@ -155,12 +137,6 @@ class GameObject
         this.image = image;
     }
 
-    SetSize(x, y)
-    {
-        this.size.x = x;
-        this.size.y = y;
-    }
-
     SetSizeVector(sizeVector)
     {
         this.size = sizeVector;
@@ -176,8 +152,53 @@ class GameObject
         this.maxSprites = maxSprites;
     }
 
+    SetTag(tag)
+    {
+        this.tag = tag;
+    }
+
+    SetSpriteData(spriteData)
+    {
+        this.SetImage(spriteData.image);
+        this.SetSpriteSheet(spriteData.spriteSheet);
+        this.SetMaximumSprite(spriteData.numSprites);
+        this.SetColidePadding(spriteData.colidePadding);
+    }
+
+    SetSize( width, height )
+    {
+        this.size.x = Math.max(width, 1);
+        this.size.y = Math.max(height,1);
+    }
+
+    SetSizeSafe(width, height, coliderChecker)
+    {
+        
+        var oldW = this.size.x;
+        var oldH = this.size.y;
+
+        this.SetSize(width, height);
+        var res = coliderChecker.IsColiding(this.SphereColider(), this.ignoreList);
+
+        if ( res.colide )
+        {
+           this.SetSize( oldW, oldH );
+           return false;
+        }
+        return true;
+    }
+
     /* GET */
 
+    GetTag()
+    {
+        return this.tag;
+    }
+
+    GetSize()
+    {
+        return this.size;
+    }
     GetSpriteSheet()
     {
         return this.spriteSheet;
@@ -191,6 +212,11 @@ class GameObject
     GetMaximumSprite()
     {
         return this.maxSprites;
+    }
+
+    GetPosition()
+    {
+        return this.position;
     }
 
 }
