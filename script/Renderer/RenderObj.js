@@ -8,7 +8,7 @@ class RenderObj
         this.rotation           = 0;
         this.image              = undefined;
         this.renderFunction     = renderFunction;
-
+        this.parentObj          = undefined;
         /* sprite sheets */
         this.spriteSheetVector  = new vector2d( 1, 1);
         this.currentSprite      = 0;
@@ -51,10 +51,20 @@ class RenderObj
         return this.currentSprite;
     }
 
+    GetParent( )
+    {
+        return this.parentObj;
+    }
+
 
 
 
     /* SET FUNCTIONS */
+
+    SetParent( parent )
+    {
+        this.parentObj = parent;
+    }
 
     SetPosition( positionVector )
     {

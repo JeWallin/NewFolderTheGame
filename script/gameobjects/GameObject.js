@@ -124,6 +124,7 @@ class GameObject
         renderObj.SetImage ( this.image );
         renderObj.SetSpriteSheetVector( new vector2d( this.spriteSheet.x, this.spriteSheet.y) );
         renderObj.SetCurrentSprite( this.currentSprite );
+        renderObj.SetParent(this);
         return renderObj;
     }
 
