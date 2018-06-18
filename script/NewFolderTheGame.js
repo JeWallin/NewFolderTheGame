@@ -10,7 +10,6 @@ class NewFolderTheGame
         this.canvas         = document.getElementById(canvasId);
         this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
-
         this.gameRenderer   = new Renderer2d(this.canvas, RenderImage);
         
         this.CreateObjects();
