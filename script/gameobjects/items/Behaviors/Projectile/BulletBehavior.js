@@ -1,9 +1,9 @@
 
 class BulletBehavior
 {
-    constructor(colideManager, creator)
+    constructor(objectManager, creator)
     {
-        this.colideManager= colideManager;
+        this.objectManager= objectManager;
         this.ignoreList = [this, creator];
     }
 
@@ -39,7 +39,7 @@ class BulletBehavior
 
         var coldider = projectile.SphereColider();
 
-        var colideResult = this.colideManager.IsColiding(coldider, this.ignoreList);
+        var colideResult = this.objectManager.IsColiding(coldider, this.ignoreList);
 
         if ( colideResult.colide )
         {

@@ -1,11 +1,11 @@
 class PlayerController extends BaseController
 {
-    constructor(colideManager, keyManager, up, down, left, right, offence, defence, util)
+    constructor(objectManager, keyManager, up, down, left, right, offence, defence, util)
     {
         super();
         console.log("PlayerController constructed");
 
-        this.colideManager  = colideManager;
+        this.objectManager  = objectManager;
         this.keyManager     = keyManager;
         this.up             = up;
         this.down           = down;
@@ -52,8 +52,8 @@ class PlayerController extends BaseController
         if( this.keyManager.IsKeyDown(this.offence) && this.cd > this.cdMax )
         {
             var bullet = new ProjectileStraight(player.facingDirection);
-            var behavior = new BulletBehavior(this.colideManager, player);
-            var effect = new SizeEffect(1, this.colideManager);
+            var behavior = new BulletBehavior(this.objectManager, player);
+            var effect = new SizeEffect(1, this.objectManager);
 
             bullet.Init(behavior, effect);
             bullet.SetPosition(player.position.x, player.position.y );
@@ -61,7 +61,7 @@ class PlayerController extends BaseController
             bullet.SetSpeed(200);
 
 
-            this.colideManager.RegisterColidableObject(bullet);
+            this.objectManager.RegisterObject(bullet);
             this.cd = 0;
         }
 
@@ -70,7 +70,7 @@ class PlayerController extends BaseController
 
         coliderSphere.position = coliderSphere.position.Add(moveVector);
 
-        var colideResult = this.colideManager.IsColiding(coliderSphere, [player]);
+        var colideResult = this.objectManager.IsColiding(coliderSphere, [player]);
 
         var myPosition = new vector2d(player.position.x + moveVector.x, player.position.y + moveVector.y);
         if ( !colideResult.colide )
@@ -92,7 +92,7 @@ class PlayerController extends BaseController
             player.SetPosition(otherPosition.x + difVector.x, otherPosition.y  + difVector.y);
 
             coliderSphere = player.SphereColider();
-            colideResult = this.colideManager.IsColiding(coliderSphere, [player]);
+            colideResult = this.objectManager.IsColiding(coliderSphere, [player]);
             
             if( colideResult.colide )
             {
