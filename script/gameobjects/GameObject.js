@@ -16,7 +16,7 @@ class GameObject
         this.maxSprites         = 1;
         this.tag                = TAGS.GAMEOBJECT;
         this.colidablePadding   = 1;
-
+        this.collidingStruct    = "SPHERE";
         this.IgnoreColideActor(this);
     }
 
@@ -121,6 +121,12 @@ class GameObject
         return sphereColider;
     }
 
+    AABoxColider()
+    {
+        var boxColider = new AABoxColider( this.position.x, this.position.y, this.size.x, this.size.y );
+        return boxColider;
+    }
+
     /* SET  */
     SetSpriteSheet( spriteSheet )
     {
@@ -188,6 +194,11 @@ class GameObject
         return true;
     }
 
+    SetCollider( collider )
+    {
+        this.collidingStruct = collider;
+    }
+
     /* GET */
 
     GetTag()
@@ -217,6 +228,16 @@ class GameObject
     GetPosition()
     {
         return this.position;
+    }
+
+    GetColliderPadding ()
+    {
+        return this.colidablePadding;
+    }
+
+    GetCollider()
+    {
+        return this.collidingStruct;
     }
 
 }

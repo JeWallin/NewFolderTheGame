@@ -65,20 +65,3 @@ class vector2d
     }
 }
 
-class SphereColider
-{
-    constructor(position, radius)
-    {
-        this.position = position;
-        this.radius = radius;
-    }
-
-    IsColiding(Sphere)
-    {
-        var maxDistance = this.radius + Sphere.radius;
-        
-        var distance = this.position.DistanceTo(Sphere.position);
-
-        return maxDistance >= distance;
-    }
-}
