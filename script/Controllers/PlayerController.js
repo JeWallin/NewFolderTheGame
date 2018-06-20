@@ -57,6 +57,7 @@ class PlayerController extends BaseController
         {
             var bullet = new BaseProjectile();
             var behavior = new BouncingBehavior(this.objectManager, [player, bullet]);
+            //var effect = new SizeEffect(10, this.objectManager);
             var effect = new DamageEffect(1, this.objectManager);
 
             bullet.Init(behavior, effect);
@@ -78,6 +79,7 @@ class PlayerController extends BaseController
             var bullet = new BaseProjectile();
             var behavior = new BulletBehavior(this.objectManager, [player, bullet]);
             var effect = new SizeEffect(1, this.objectManager);
+            //var effect = new DamageEffect(1, this.objectManager);
 
             bullet.Init(behavior, effect);
             bullet.SetPosition(player.position.x, player.position.y );

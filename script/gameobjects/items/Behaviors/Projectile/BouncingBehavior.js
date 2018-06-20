@@ -17,7 +17,7 @@ class BouncingBehavior
         currentPosition = dirVector.Add(currentPosition);
 
         projectile.SetPosition(currentPosition.x, currentPosition.y);
-        
+
         var coldider = projectile.SphereColider();
 
         var colideResult = this.objectManager.IsColiding(coldider, this.ignoreList);
