@@ -15,39 +15,41 @@
         <img id="playerImage" src="./content/graphics/player.png"/>
         <img id="slimeRainImage" src="./content/graphics/Sprite_enemy_slime.png"/>
         <img id="fireSpriteImage" src="./content/graphics/flame_sprite.png"/>
-
+        <img id="acidSpriteImage" src="./content/graphics/acidgun_die.png"/>
         </div>
     <div id="container">
         <canvas id="screen" width="1920" height="1080" ></canvas>
-        
     </div>
 
-    <!-- NEW RENDERER -->
+    <!-- HELPER -->
     <script src="./script/Util/HelperClasses.js"></script>
+    <!-- SHADER -->
     <script src="./script/Renderer/RenderFunctions/RenderImage.js"></script>
     <script src="./script/Renderer/RenderFunctions/RenderSpriteSheet.js"></script>
-
+    <!-- RENDERER -->
     <script src="./script/Renderer/RenderObj.js"></script>
     <script src="./script/Renderer/Renderer2d.js"></script>
-
-    
-
-
+    <!-- MANAGERS -->
     <script src="./script/KeyManager.js"></script>
     <script src="./script/ConstantManager.js"></script>
-    
-    
     <script src="./script/ColideManager.js"></script>
-    <script src="./script/gameobjects/items/Effects/SizeEffect.js"></script>
-    <script src="./script/gameobjects/items/Behaviors/Projectile/BulletBehavior.js"></script>
+    <!-- OBJECTS -->
+    
 
+
+    <script src="./script/gameobjects/items/Behaviors/Projectile/BouncingBehavior.js"></script>
+    <script src="./script/gameobjects/items/Effects/SizeEffect.js"></script>
+    <script src="./script/gameobjects/items/Effects/DamageEffect.js"></script>
+    <script src="./script/gameobjects/items/Behaviors/Projectile/BulletBehavior.js"></script>
+    <script src="./script/gameobjects/items/Behaviors/Kill/TimeKill.js"></script>
     <script src="./script/Controllers/BaseController.js"></script>
     <script src="./script/Controllers/PlayerController.js"></script>
     <script src="./script/Controllers/AIController.js"></script>
 
 
+    
     <script src="./script/gameobjects/GameObject.js"></script>
-    <script src="./script/gameobjects/items/projectile.js"></script>
+    <script src="./script/gameobjects/items/BaseProjectile.js"></script>
     <script src="./script/gameobjects/units/BaseUnit.js"></script>
     <script src="./script/gameobjects/units/Player/BasePlayer.js"></script>
     <script src="./script/gameobjects/WorldObjects/Rock.js"></script>

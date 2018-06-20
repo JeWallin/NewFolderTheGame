@@ -34,7 +34,6 @@ class ObjectManager
                 !(ignore.includes(this.objects[i])) && 
                 sphere.IsColiding(this.objects[i].SphereColider()) )
             {
-                
                 return {colide: true, with: this.objects[i]};
             }
         }

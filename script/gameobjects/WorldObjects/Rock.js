@@ -6,8 +6,10 @@ class Rock extends GameObject
         super();
         console.log("Rock Constructed");
 
-        super.SetImage(graphicAssets.ROCK.image);
+        
         super.SetRenderFunction(RenderImage);
+        super.SetSpriteData(graphicAssets.ROCK);
+        super.SetTag(TAGS.NOTMOVABLE);
     }
 
     Init( position, size, rotation )
@@ -22,6 +24,11 @@ class Rock extends GameObject
     Update(deltaTime)
     {
         super.Update(deltaTime);
+
+        if ( super.GetSize().x <= 1 )
+        {
+            super.toDestroy = true;
+        }
     }
 
     RenderObject()

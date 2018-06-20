@@ -1,5 +1,5 @@
 
-class BulletBehavior
+class BouncingBehavior
 {
     constructor(objectManager, ignoreList)
     {
@@ -10,7 +10,6 @@ class BulletBehavior
     Update(deltaTime, projectile)
     {
         var currentPosition = new vector2d( projectile.position.x, projectile.position.y );
-
         var toMove = projectile.speed * deltaTime;
 
         var dirVector = projectile.GetDirection().Mult(toMove);
@@ -20,6 +19,8 @@ class BulletBehavior
         projectile.SetPosition(currentPosition.x, currentPosition.y);
 
 
+        
+
         var coldider = projectile.SphereColider();
 
         var colideResult = this.objectManager.IsColiding(coldider, this.ignoreList);
@@ -27,8 +28,17 @@ class BulletBehavior
         if ( colideResult.colide )
         {
             colideResult.with.AffectedBy(projectile.projectorEffect);
-            
-            //projectile.toDestroy = true;
+
+            this.ignoreList = [projectile, colideResult.with];
+
+            var colidedWith = colideResult.with;
+            var otherPosition = colidedWith.SphereColider().position;
+
+            var difVector = projectile.position.DiffVector(otherPosition);
+            difVector.Normalize();
+
+            projectile.SetDirection(difVector);
+
         }
     }
 }

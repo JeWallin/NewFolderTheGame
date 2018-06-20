@@ -10,7 +10,6 @@ class NewFolderTheGame
         this.canvas         = document.getElementById(canvasId);
         this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
         this.renderContext  = this.canvas.getContext('2d');
-
         this.gameRenderer   = new Renderer2d(this.canvas, RenderImage);
         
         this.CreateObjects();
@@ -25,7 +24,7 @@ class NewFolderTheGame
         var playerController = new PlayerController(this.objectManager, this.keyManager, 
             KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
         var player2Controller = new PlayerController(this.objectManager, this.keyManager, 
-            KEYS.I, KEYS.K, KEYS.J, KEYS.L, KEYS.RIGHT, KEYS.Q, KEYS.E);
+            KEYS.I, KEYS.K, KEYS.J, KEYS.L, KEYS.RIGHT, KEYS.Q, KEYS.P);
         
         player.SetPosition(500, 500);
         player.SetPosition(500, 600);
