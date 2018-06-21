@@ -17,8 +17,15 @@
         <img id="fireSpriteImage" src="./content/graphics/flame_sprite.png"/>
         <img id ="redSpriteImage" src="./content/graphics/blood-projectile-spritesheet-red.png"/>
         <img id ="acidSpriteImage" src="./content/graphics/acidgun_die.png"/>
-        </div>
+    </div>
+
     <div id="container">
+
+    <div>
+            <input type='file' accept='text/plain' onchange='loadMap(event)'>    
+    </div>
+
+        <div id="container">
         <canvas id="screen" width="1920" height="1080" ></canvas>
         
     </div>
@@ -33,7 +40,7 @@
 
     
 
-
+    <script src="./script/MapManager.js"></script>
     <script src="./script/KeyManager.js"></script>
     <script src="./script/ConstantManager.js"></script>
     
@@ -50,7 +57,6 @@
 
 
     <script src="./script/gameobjects/GameObject.js"></script>
-    <script src="./script/gameobjects/items/projectile.js"></script>
     <script src="./script/gameobjects/items/BaseProjectile.js"></script>
 
     <script src="./script/gameobjects/units/BaseUnit.js"></script>

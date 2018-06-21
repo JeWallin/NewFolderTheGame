@@ -8,11 +8,26 @@ function main ()
 
     game = new NewFolderTheGame("screen");
 
-    game.Init();
+    //game.Init();
 
     lastUpdate = Date.now();
 
     tick();
+}
+
+function loadMap(map)
+{
+	game.mapManager.LoadMap(map);
+}
+
+function MapIsloaded()
+{
+	game.mapManager.GenerateMap();
+}
+
+function InitGameNow()
+{
+	game.Init();
 }
 
 function KeyDown(event)

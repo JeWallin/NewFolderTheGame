@@ -6,17 +6,23 @@ class NewFolderTheGame
         console.log("NewFolderTheGame Constructed");
 
         this.keyManager     = new KeyManager();
-        this.objectManager = new ObjectManager();
+        this.objectManager  = new ObjectManager();
+        this.mapManager     = new MapManager();
+
         this.canvas         = document.getElementById(canvasId);
+
         this.gameSize       = new vector2d(this.canvas.width, this.canvas.height);
+        this.mapManager     = new MapManager(this.gameSize);
+
         this.renderContext  = this.canvas.getContext('2d');
 
         this.gameRenderer   = new Renderer2d(this.canvas, RenderImage);
         
-        this.CreateObjects();
+        //this.CreateObjects();
+        this.players        = [];
     }
 
-
+    /*
     CreateObjects()
     {
         var player = new BasePlayer();
@@ -61,19 +67,54 @@ class NewFolderTheGame
                 }
             }
         }
-    }
+    }*/
 
-    Init()
-    {
-        console.log("NewFolderTheGame Init");
-
-        /*
+    /*
         1) CREATE MAP
         2) CREATE WALLS ETC.
         3) CREATE HERO SWAPN.
         4) CREATE ZOMBIE SPAWN.
         5) ja det andra också
-         */
+    */
+    Init()
+    {
+        console.log("NewFolderTheGame Init");
+        console.log(this.mapManager.WorldObjects);
+        //CreateObjects();
+
+        var rockLocations = this.mapManager.GetWorldObjects();
+
+        for( var i = 0; i < rockLocations.length; i++ )
+        {
+            var sizeXY =   20;// + Math.random()*100;
+            var size = new vector2d( sizeXY, sizeXY);
+            var rock = new Rock();
+
+            rock.Init(pos, size, 0);
+
+            this.objectManager.RegisterObject(rock);
+        }
+
+        var player = new BasePlayer();
+        
+        var player2 = new BasePlayer();
+        var playerController = new PlayerController(this.objectManager, this.keyManager, 
+            KEYS.W, KEYS.S, KEYS.A, KEYS.D, KEYS.SPACE, KEYS.Q, KEYS.E);
+        var player2Controller = new PlayerController(this.objectManager, this.keyManager, 
+            KEYS.I, KEYS.K, KEYS.J, KEYS.L, KEYS.RIGHT, KEYS.Q, KEYS.P);
+        
+        var playerLocations = this.mapManager.GetPlayerLocations();
+
+        // hard coded for 2 players atm
+
+        player.SetPosition(playerLocations[0]);
+        player2.SetPosition(playerLocations[1]);
+
+        player.Init(playerController);
+        player2.Init(player2Controller);
+        
+        this.objectManager.RegisterObject(player);
+        this.objectManager.RegisterObject(player2);
     }
 
     Input(keyCode, isDown)
