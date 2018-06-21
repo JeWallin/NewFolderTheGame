@@ -13,14 +13,11 @@ class MapManager
 	constructor(gameSize)
 	{
 		console.log("MapManager constructed");
-		this.gameSize = gameSize;
-		this.mapString = {};
-
-		this.WorldMap = [];
-		// candy
-		this.WorldObjects = [];
-		// PC and NPC
-		this.PlayerStart = [];
+		this.gameSize 		= gameSize;
+		this.mapString 		= {};
+		this.scale			= undefined;
+		this.WorldMap 		= [];
+		this.PlayerStart 	= [];
 	}
 
 	Reset()
@@ -28,19 +25,8 @@ class MapManager
 		this.mapString = {};
 
 		this.WorldMap = [];
-		// candy
-		this.WorldObjects = [];
-		// PC and NPC
 		this.PlayerStart = [];
 		mapstringglobal = undefined;
-	}
-
-	IsWalkable(x, y)
-	{
-		if ( y < this.WorldMap.length && !( this.WorldMap[y] === undefined) && x < this.WorldMap[y].length)
-			return ( this.WorldMap[y][x].walkable );
-		else
-			return false;
 	}
 	
 	LoadMap(MapFile)
@@ -72,7 +58,7 @@ class MapManager
 
 	ResetVarialbes()
 	{
-		this.WorldObjects.splice(0, this.WorldObjects.length);
+		this.WorldMap.splice(0, this.WorldMap.length);
 		this.PlayerStart.splice(0, this.PlayerStart.length);
 	}
 
@@ -102,7 +88,9 @@ class MapManager
 		this.ResetVarialbes();
 		this.mapString = mapstringglobal;
 
-		var layoutSize = LayoutSize();
+		var layoutSize = this.LayoutSize();
+		this.scale = new vector2d( this.gameSize.x/layoutSize.x, this.gameSize.y/layoutSize.y );
+
 		var x = 0;
 		var y = 0;
 
@@ -119,12 +107,13 @@ class MapManager
 			}
 			else if ( this.mapString[i] === 'x')
 			{
-				var pos = new vector2d( x, y );
+				var pos = new vector2d( x*this.scale.x, y*this.scale.y );
 				this.WorldMap.push(pos);
+				console.log(pos);
 			}
 			else if (this.mapString[i] === 'p')
 			{
-				var pos = new vector2d( x, y );
+				var pos = new vector2d( x*this.scale.x, y*this.scale.y );
 				this.PlayerStart.push(pos);
 			}
 			x++;
@@ -136,11 +125,16 @@ class MapManager
 
 	GetWorldObjects()
 	{
-		return this.WorldObjects;
+		return this.WorldMap;
 	}
 
 	GetPlayerLocations()
 	{
 		return this.PlayerStart;
+	}
+
+	GetScale()
+	{
+		return this.scale;
 	}
 }

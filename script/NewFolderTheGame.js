@@ -22,6 +22,7 @@ class NewFolderTheGame
         this.players        = [];
     }
 
+    // Random rock locations
     /*
     CreateObjects()
     {
@@ -79,18 +80,20 @@ class NewFolderTheGame
     Init()
     {
         console.log("NewFolderTheGame Init");
-        console.log(this.mapManager.WorldObjects);
         //CreateObjects();
 
         var rockLocations = this.mapManager.GetWorldObjects();
+        console.log(rockLocations);
+        var scale = this.mapManager.GetScale();
 
         for( var i = 0; i < rockLocations.length; i++ )
         {
-            var sizeXY =   20;// + Math.random()*100;
+            var sizeXY = scale.y;
             var size = new vector2d( sizeXY, sizeXY);
             var rock = new Rock();
 
-            rock.Init(pos, size, 0);
+            rock.Init(rockLocations[i], size, 0);
+            console.log();
 
             this.objectManager.RegisterObject(rock);
         }
@@ -105,10 +108,11 @@ class NewFolderTheGame
         
         var playerLocations = this.mapManager.GetPlayerLocations();
 
+        console.log(playerLocations);
         // hard coded for 2 players atm
 
-        player.SetPosition(playerLocations[0]);
-        player2.SetPosition(playerLocations[1]);
+        player.SetPosition(playerLocations[0].x, playerLocations[0].y);
+        player2.SetPosition(playerLocations[1].x, playerLocations[1].y);
 
         player.Init(playerController);
         player2.Init(player2Controller);

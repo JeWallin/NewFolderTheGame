@@ -27,7 +27,7 @@ function MapIsloaded()
 
 function InitGameNow()
 {
-	game.Init();
+    game.Init();
 }
 
 function KeyDown(event)
