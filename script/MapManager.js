@@ -94,26 +94,22 @@ class MapManager
 		var x = 0;
 		var y = 0;
 
-		this.WorldMap.push([]);
-
 		for (var i = 0; i < this.mapString.length; i++)
 		{
 			if ( this.mapString[i] === '\n' )
 			{
-				//Its a new line
 				x = -1;
 				y += 1;
-				this.WorldMap.push([]);
 			}
 			else if ( this.mapString[i] === 'x')
 			{
-				var pos = new vector2d( x*this.scale.x, y*this.scale.y );
+				var pos = new vector2d( x*this.scale.x+this.scale.x/2, y*this.scale.y + this.scale.y/2 );
 				this.WorldMap.push(pos);
 				console.log(pos);
 			}
 			else if (this.mapString[i] === 'p')
 			{
-				var pos = new vector2d( x*this.scale.x, y*this.scale.y );
+				var pos = new vector2d( x*this.scale.x +this.scale.x/2, y*this.scale.y + this.scale.y/2 );
 				this.PlayerStart.push(pos);
 			}
 			x++;
