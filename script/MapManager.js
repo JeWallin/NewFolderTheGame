@@ -47,12 +47,6 @@ class MapManager
 
 	NotifySubscribers()
 	{
-		//console.log("Hi");
-		//for( var i = 0; i < this.subscriber.length; i++)
-		{
-			//this.subscriber[i].Notify(this);
-		}
-
 		InitGameNow();
 	}
 
@@ -64,7 +58,7 @@ class MapManager
 
 	LayoutSize()
 	{
-		var width 	= 0;
+		var width 	= -1;
 		var height 	= 1;
 		var rowDone	= false;
 
@@ -105,7 +99,6 @@ class MapManager
 			{
 				var pos = new vector2d( x*this.scale.x+this.scale.x/2, y*this.scale.y + this.scale.y/2 );
 				this.WorldMap.push(pos);
-				console.log(pos);
 			}
 			else if (this.mapString[i] === 'p')
 			{

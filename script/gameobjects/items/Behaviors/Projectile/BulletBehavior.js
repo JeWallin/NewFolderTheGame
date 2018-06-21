@@ -1,15 +1,16 @@
 
 class BulletBehavior
 {
-    constructor(objectManager, creator)
+    constructor(objectManager, ignoreList)
     {
         this.objectManager= objectManager;
-        this.ignoreList = [this, creator];
+        this.ignoreList = ignoreList;
     }
 
     Update(deltaTime, projectile)
     {
         var currentPosition = new vector2d( projectile.position.x, projectile.position.y );
+
         var toMove = projectile.speed * deltaTime;
 
         var dirVector = projectile.GetDirection().Mult(toMove);

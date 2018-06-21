@@ -15,7 +15,6 @@ class NewFolderTheGame
         this.mapManager     = new MapManager(this.gameSize);
 
         this.renderContext  = this.canvas.getContext('2d');
-
         this.gameRenderer   = new Renderer2d(this.canvas, RenderImage);
         
         //this.CreateObjects();

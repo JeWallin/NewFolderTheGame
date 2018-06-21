@@ -9,16 +9,16 @@ class BaseProjectile extends GameObject
         this.projectorEffect    = undefined;
         this.direction          = new vector2d( 1, 1 );
         this.speed              = 50;        
-
+        this.isDead             = new TimeKill(5);
         this.currentSpriteTime  = 0;
         this.changeSprite       = 0.5;
 
+        
         super.SetSize(new vector2d( 20, 20 ));
-        super.SetImage(graphicAssets.ACIDBALL.image);
-        super.SetSpriteSheet(graphicAssets.ACIDBALL.spriteSheet);
         super.SetCurrentSprite(0);
+        super.SetSpriteData(graphicAssets.ACIDBALL);
         super.SetRenderFunction(RenderSpriteSheet);
-        super.SetMaximumSprite(graphicAssets.ACIDBALL.numSprites);
+        
     }
 
     Init(behavior, effect)
@@ -46,11 +46,21 @@ class BaseProjectile extends GameObject
     {
         this.projectorEffect = effect;
     }
-
+    SetTimeToDie(killFunction)
+    {
+        this.isDead = killFunction;
+    }
     SetSpeed(speed)
     {
         this.speed = speed;
     }
+
+    SetChangeSpeed(cspeed)
+    {
+        this.changeSprite = cspeed;
+    }
+
+    
 
     Update(deltaTime)
     {
@@ -64,10 +74,8 @@ class BaseProjectile extends GameObject
             var currentSprite = super.GetCurrentSprite();
             var newSprite = ( currentSprite + 1 ) % ( super.GetMaximumSprite() );
 
-            if(newSprite === 0)
-            {
-                super.toDestroy =true;
-            }
+            super.toDestroy = this.isDead.Update(deltaTime);
+
             super.SetCurrentSprite(newSprite);
         }
         

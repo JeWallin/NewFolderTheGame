@@ -1,10 +1,10 @@
 
 class BouncingBehavior
 {
-    constructor(objectManager, creator)
+    constructor(objectManager, ignoreList)
     {
         this.objectManager= objectManager;
-        this.ignoreList = [this, creator];
+        this.ignoreList = ignoreList;
     }
 
     Update(deltaTime, projectile)
@@ -19,6 +19,8 @@ class BouncingBehavior
         projectile.SetPosition(currentPosition.x, currentPosition.y);
 
 
+        
+
         var coldider = projectile.SphereColider();
 
         var colideResult = this.objectManager.IsColiding(coldider, this.ignoreList);
@@ -27,7 +29,7 @@ class BouncingBehavior
         {
             colideResult.with.AffectedBy(projectile.projectorEffect);
 
-            this.ignoreList = [this, colideResult.with];
+            this.ignoreList = [projectile, colideResult.with];
 
             var colidedWith = colideResult.with;
             var otherPosition = colidedWith.SphereColider().position;
