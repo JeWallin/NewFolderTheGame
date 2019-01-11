@@ -18,6 +18,8 @@ class NewFolderThePong
         this.gameRenderer   = new Renderer2d(this.canvas, RenderImage);
         
         this.players        = [];
+
+        this.particles = new SimpleParticleSystem(new vector2d(500, 500), 10000, 5, 0.001);
     }
 
     Init()
@@ -70,6 +72,7 @@ class NewFolderThePong
 
     Update(deltaTime)
     {
+        this.particles.Update(deltaTime);
         var objects = this.objectManager.GetObjects();
 
         for ( var i = 0; i < objects.length; i++)
@@ -85,6 +88,15 @@ class NewFolderThePong
                 this.objectManager.DeregisterObject(objects[i]);
                 i--;
             }
+        }
+
+        if(this.keyManager.IsKeyDown(KEYS.A))
+        {
+            this.particles.position.x -= 50*deltaTime;
+        }
+        if( this.keyManager.IsKeyDown(KEYS.D) )
+        {
+            this.particles.position.x += 50*deltaTime;
         }
     }
 
@@ -105,5 +117,7 @@ class NewFolderThePong
             this.gameRenderer.Render( object );
             this.gameRenderer.PostRender();
         }
+
+        this.particles.Render(this.canvas);
     }
 }

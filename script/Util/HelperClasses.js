@@ -18,7 +18,7 @@ class vector2d
             this.x /= length;
             this.y /= length; 
         }
-        
+        return this;
     }
 
     DiffVector(vector)
