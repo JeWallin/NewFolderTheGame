@@ -6,7 +6,7 @@ var lastUpdate;
 function main ()
 {
 
-    game = new NewFolderTheGame("screen");
+    game = new NewFolderThePong("screen");
 
     game.Init();
 
@@ -49,7 +49,7 @@ INIT
 UPDATE
     UPDATE BALL
     UPDATE PLAYERS
-    
+
 
 END
 
