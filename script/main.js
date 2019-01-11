@@ -38,3 +38,20 @@ function tick()
 
     requestAnimationFrame(tick);
 }
+
+/*
+
+INIT
+    BUILD WALS
+    CREATE PLAYES
+    CREATE BALL
+
+UPDATE
+    UPDATE BALL
+    UPDATE PLAYERS
+    
+
+END
+
+
+*/
