@@ -55,15 +55,15 @@ class PlayerController extends BaseController
         }
         if( this.keyManager.IsKeyDown(this.offence) && this.cd > this.cdMax )
         {
-            var bullet = new BaseProjectile();
+            var bullet = new PongBall();
             var behavior = new BouncingBehavior(this.objectManager, [player, bullet]);
-            var effect = new DamageEffect(1, this.objectManager);
+            var effect = new DamageEffect(0, this.objectManager);
 
             bullet.Init(behavior, effect);
             bullet.SetPosition(player.position.x, player.position.y );
             bullet.SetDirection(player.GetFacingDirection());
             bullet.SetChangeSpeed(0.01);
-            bullet.SetSpriteData(graphicAssets.FIREBALL);
+            bullet.SetSpriteData(graphicAssets.PONGBALL);
             bullet.SetSize(40,40);
             bullet.SetSpeed(bulletSpeed);
             bullet.SetColidable(true);

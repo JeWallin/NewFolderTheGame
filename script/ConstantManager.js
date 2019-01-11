@@ -7,6 +7,7 @@ const graphicAssets =
     FIREBALL: { image: document.getElementById("fireSpriteImage"), spriteSheet: new vector2d( 5 , 4 ), numSprites: 18, colidePadding: 0.75},
     REDBALL: { image: document.getElementById("redSpriteImage"), spriteSheet: new vector2d( 5, 1 ), numSprites: 6, colidePadding: 0.95},
     ACIDBALL: { image: document.getElementById("acidSpriteImage"), spriteSheet: new vector2d( 5, 3 ), numSprites: 11, colidePadding: 0.75},
+    PONGBALL: { image: document.getElementById("pongBallImage"), spriteSheet: new vector2d( 1, 1 ), numSprites: 1, colidePadding: 0.98},
 };
 
 const DIRECTIONS = {NORTH: 1, WEST: 2, SOUTH: 3, EAST: 4 };

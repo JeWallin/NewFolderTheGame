@@ -2,19 +2,20 @@
 
 class DamageEffect
 {
-    constructor(Size, objectManager)
+    constructor(damage, objectManager)
     {
-        this.Size = Size;
+        this.Damage = damage;
         this.time = 2;
         this.timePassed = 0;
         this.objectManager = objectManager;
+        
     }
 
     Update(deltaTime, obj)
     {
         if(obj.GetTag() === TAGS.BASEPLAYER)
         {
-            obj.ChangeHealth(-1);
+            obj.ChangeHealth(-this.Damage);
         }
         return true;
     }
