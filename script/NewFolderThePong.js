@@ -92,11 +92,19 @@ class NewFolderThePong
 
         if(this.keyManager.IsKeyDown(KEYS.A))
         {
-            this.particles.position.x -= 50*deltaTime;
+            this.particles.position.x -= 100*deltaTime;
         }
         if( this.keyManager.IsKeyDown(KEYS.D) )
         {
-            this.particles.position.x += 50*deltaTime;
+            this.particles.position.x += 100*deltaTime;
+        }
+        if(this.keyManager.IsKeyDown(KEYS.W))
+        {
+            this.particles.position.y -= 100*deltaTime;
+        }
+        if( this.keyManager.IsKeyDown(KEYS.S) )
+        {
+            this.particles.position.y += 100*deltaTime;
         }
     }
 
